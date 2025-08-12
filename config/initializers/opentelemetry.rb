@@ -9,9 +9,11 @@ require "opentelemetry/instrumentation/all"
 # require "opentelemetry/instrumentation/active_job"
 
 # configure for development
-ENV["OTEL_TRACES_EXPORTER"] = "otlp" if !ENV["OTEL_TRACES_EXPORTER"]
-ENV["OTEL_EXPORTER_OTLP_PROTOCOL"] = "http/protobuf" if !ENV["OTEL_EXPORTER_OTLP_PROTOCOL"]
-ENV["OTEL_EXPORTER_OTLP_ENDPOINT"] = "http://10.43.97.33:4318" if !ENV["OTEL_EXPORTER_OTLP_ENDPOINT"]
+unless Rails.env.test?
+  ENV["OTEL_TRACES_EXPORTER"] = "otlp" if !ENV["OTEL_TRACES_EXPORTER"]
+  ENV["OTEL_EXPORTER_OTLP_PROTOCOL"] = "http/protobuf" if !ENV["OTEL_EXPORTER_OTLP_PROTOCOL"]
+  ENV["OTEL_EXPORTER_OTLP_ENDPOINT"] = "http://10.43.97.33:4318" if !ENV["OTEL_EXPORTER_OTLP_ENDPOINT"]
+end
 
 # configure open telemetry
 OpenTelemetry::SDK.configure do |c|
