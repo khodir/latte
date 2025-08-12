@@ -1,6 +1,6 @@
 require "prometheus_exporter/middleware"
 
-unless Rails.env.test?
+if Rails.env.production?
   # This reports stats per request like HTTP status and timings
   Rails.application.middleware.unshift PrometheusExporter::Middleware, instrument: :prepend
 end

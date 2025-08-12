@@ -9,11 +9,11 @@
         </q-card-section>
         <q-separator/>
         <q-card-section>
-          <q-form @submit.prevent="frm.post('/login')">
+          <q-form @submit.prevent="frm.post('/users/sign_in')">
             <!-- Email -->
             <q-input label="Email" v-model="frm.email"
             :error="!!frm.errors.email"
-            :error-message="frm.errors.email">
+            :error-message="!!frm.errors.email ? frm.errors.email[0] : ''">
               <template v-slot:prepend>
                 <q-icon name="fas fa-user-tie"></q-icon>
               </template>
@@ -21,7 +21,7 @@
             <!-- Password -->
             <q-input label="Password" :type="passwordType" v-model="frm.password"
             :error="!!frm.errors.password"
-            :error-message="frm.errors.password">
+            :error-message="!!frm.errors.password ? frm.errors.password[0] : ''">
               <template v-slot:prepend>
                 <q-icon name="fas fa-lock"></q-icon>
               </template>
@@ -50,7 +50,7 @@
   </q-page>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from 'vue';
 import { Head } from '@inertiajs/vue3';
 import { inject, onBeforeUnmount, onBeforeMount } from 'vue';
@@ -67,10 +67,7 @@ const passwordType = computed(() => (showPassword.value ? 'text' : 'password'));
 const passwordIcon = computed(() => (showPassword.value ? 'fas fa-eye-slash' : 'fas fa-eye'));
 
 // Layout
-const layoutData = inject('layoutData') as {
-  headerVisible: boolean;
-  drawerVisible: boolean;
-};
+const layoutData = inject('layoutData');
 
 // Hide Layout
 onBeforeMount(() => {
