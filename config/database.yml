@@ -14,8 +14,8 @@ default: &default
   encoding: utf8mb4
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: root
-  password:
-  host: <%= ENV.fetch("DB_HOST") { "127.0.0.1" } %>
+  password: bikinapp
+  host: <%= ENV.fetch("DB_HOST") { "10.43.90.20" } %>
 
 development:
   <<: *default
@@ -54,15 +54,15 @@ production:
     database: latte_production
     username: latte
     password: <%= ENV["LATTE_DATABASE_PASSWORD"] %>
-  cache:
-    <<: *primary_production
-    database: latte_production_cache
-    migrations_paths: db/cache_migrate
-  queue:
-    <<: *primary_production
-    database: latte_production_queue
-    migrations_paths: db/queue_migrate
-  cable:
-    <<: *primary_production
-    database: latte_production_cable
-    migrations_paths: db/cable_migrate
+  # cache:
+  #   <<: *primary_production
+  #   database: latte_production_cache
+  #   migrations_paths: db/cache_migrate
+  # queue:
+  #   <<: *primary_production
+  #   database: latte_production_queue
+  #   migrations_paths: db/queue_migrate
+  # cable:
+  #   <<: *primary_production
+  #   database: latte_production_cable
+  #   migrations_paths: db/cable_migrate
