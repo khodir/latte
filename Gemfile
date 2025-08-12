@@ -83,3 +83,5 @@ gem "opentelemetry-exporter-otlp", "~> 0.30.0"
 gem "opentelemetry-instrumentation-rails", "~> 0.36.0"
 
 gem "prometheus_exporter", "~> 2.2"
+
+gem "devise", "~> 4.9"

@@ -30,7 +30,7 @@
               </template>
             </q-input>
             <!-- Remember Me -->
-            <q-checkbox class="q-mt-sm" v-model="frm.remember" label="Remember Me" />
+            <q-checkbox class="q-mt-sm" v-model="frm.remember_me" label="Remember Me" />
             <!-- Login Button -->
             <div class="row">
               <div class="col">
@@ -59,7 +59,7 @@ import { useForm } from '@inertiajs/vue3';
 const frm = useForm({
   email: '',
   password: '',
-  remember: false
+  remember_me: false
 });
 
 const showPassword = ref(false);
