@@ -1,0 +1,20 @@
+@import "@quasar/extras/roboto-font/roboto-font.css";
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+@import "quasar/dist/quasar.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.q-layout {
+  @apply tw-font-sans tw-antialiased;
+  background-color: #ebebeb;
+}
+
+.q-table th {
+  font-weight: unset;
+}
+
+.bg-none {
+  background: none !important;
+}

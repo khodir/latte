@@ -1,0 +1,28 @@
+[
+    {
+        "label": "Dashboard",
+        "icon": "fas fa-chart-line"
+    },
+    {
+        "label": "Master Data",
+        "icon": "fas fa-folder-open",
+        "items": [
+            {
+                "label": "Category",
+                "icon": "fas fa-tags",
+                "link": "/master/category"
+            },
+            {
+                "label": "Item",
+                "icon": "fas fa-box",
+                "link": "/master/item"
+            }
+        ]
+    },
+    {
+        "label": "Logout",
+        "icon": "fas fa-sign-out-alt",
+        "link": "/logout",
+        "method": "post"
+    }
+]
