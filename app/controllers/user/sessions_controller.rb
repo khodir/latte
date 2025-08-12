@@ -4,6 +4,8 @@ class User::SessionsController < Devise::SessionsController
   include ApplicationHelper
   # before_action :configure_sign_in_params, only: [:create]
 
+  rescue_from ActiveModel::ValidationError, with: :handle_validation_errors
+
   # GET /resource/sign_in
   def new
     render inertia: "auth/login"
@@ -13,9 +15,16 @@ class User::SessionsController < Devise::SessionsController
   def create
     p = params.permit(:email, :password)
     creds = UserLoginRequest.new(email: p[:email], password: p[:password])
+    creds.validate!
 
-    unless creds.valid?
-      redirect_to new_user_session_url, inertia: { errors: format_validation_errors(creds.errors) }
+    @user = User.find_by(email: creds.email)
+    return redirect_back fallback_location: root_path, inertia: { errors: { email: "Invalid Email or Password" } } if @user.nil?
+
+    if @user&.valid_password?(creds.password)
+      sign_in(@user)
+      redirect_to root_path, inertia: { flash: { notice: "Signed in successfully." } }
+    else
+      redirect_back fallback_location: root_path, inertia: { errors: format_validation_errors(@user&.errors || creds.errors) }
     end
   end
 

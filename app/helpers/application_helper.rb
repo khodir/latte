@@ -8,4 +8,16 @@ module ApplicationHelper
 
     errors
   end
+
+  def handle_validation_errors(e)
+    if e.is_a?(ActiveModel::ValidationError)
+      messages = format_validation_errors(e.model.errors)
+      redirect_back fallback_location: root_path, inertia: { errors: messages }
+    end
+
+    if e.is_a?(ActiveRecord::RecordInvalid)
+      messages = format_validation_errors(e.record.errors)
+      redirect_back fallback_location: root_path, inertia: { errors: messages }
+    end
+  end
 end
