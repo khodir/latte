@@ -1,4 +1,4 @@
 
-vite: bin/vite dev
-web: bin/rails s
+vite: npm run dev
+web: rails s
 metrics: bundle exec prometheus_exporter
