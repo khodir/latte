@@ -73,3 +73,7 @@ group :test do
 end
 
 gem "aws-sdk-s3", require: false
+
+gem "inertia_rails", "~> 3.10"
+
+gem "vite_rails", "~> 3.0"

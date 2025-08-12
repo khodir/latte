@@ -1,0 +1,18 @@
+{
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "vite": "^5.4.19",
+    "vite-plugin-ruby": "^5.1.1"
+  },
+  "dependencies": {
+    "@inertiajs/vue3": "^2.0.17",
+    "@vitejs/plugin-vue": "^6.0.1",
+    "typescript": "~5.6.2",
+    "vue": "^3.5.18",
+    "vue-tsc": "^3.0.5"
+  },
+  "scripts": {
+    "check": "vue-tsc -p tsconfig.app.json && tsc -p tsconfig.node.json"
+  }
+}
