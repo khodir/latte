@@ -10,8 +10,10 @@ class ApplicationController < ActionController::Base
 
   # filters
   before_action :authenticate_user!
+  before_action :set_current_perusahaan!
 
   # inertia
+  inertia_share app_name: -> { "Latte" }
   inertia_share flash: -> { flash.to_h }
   inertia_share if: :user_signed_in? do
     {
@@ -25,7 +27,11 @@ class ApplicationController < ActionController::Base
   end
 
   private
+  def set_current_perusahaan!
+    @current_perusahaan = Perusahaan.find_by(user: current_user)
+  end
+
   def current_perusahaan
-    @current_perusahaan ||= Perusahaan.find_by(user: current_user)
+    @current_perusahaan
   end
 end

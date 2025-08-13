@@ -4,7 +4,7 @@
     <div class="tw-flex-none md:tw-w-1/2 sm:tw-w-full lg:tw-w-1/3">
       <q-card>
         <q-card-section>
-          <div class="text-h6 text-bold">Dealer Management System</div>
+          <div class="text-h6 text-bold">Latte</div>
           <div class="text-subtitle1">Login Application</div> 
         </q-card-section>
         <q-separator/>

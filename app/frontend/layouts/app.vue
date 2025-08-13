@@ -6,7 +6,7 @@
         <q-btn dense flat round :icon="leftDrawerIcon" @click="toggleLeftDrawer" />
 
         <q-toolbar-title>
-          <span>{{ page.props.appName }}</span>
+          <span>{{ page.props.app_name }}</span>
         </q-toolbar-title>
         <q-space />
         <Link href="/users/sign_out" method="delete">

@@ -3,7 +3,7 @@
   <q-page class="q-pa-md">
     <q-card class="full-width">
       <q-card-section>
-        <div class="text-h6 text-bold">Dealer Management System</div>
+        <div class="text-h6 text-bold">Latte</div>
         <div class="text-subtitle1">Welcome to the Home Page</div>
       </q-card-section>
       <q-separator />
