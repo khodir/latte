@@ -38,6 +38,7 @@ class User::SessionsController < Devise::SessionsController
     forget_me(current_user) if current_user
     sign_out(current_user)
 
+    flash[:notice] = "Signed out successfully."
     redirect_to action: :new
   end
 

@@ -5,12 +5,18 @@ class ApplicationController < ActionController::Base
 
   # error handling
   rescue_from ActiveModel::ValidationError, with: :handle_validation_errors
+  rescue_from ActiveRecord::RecordInvalid, with: :handle_validation_errors
 
   # filters
   before_action :authenticate_user!
 
   # inertia
-  inertia_share auth: -> { { user: current_user } }
+  inertia_share flash: -> { flash.to_h }
+  inertia_share if: :user_signed_in? do
+    {
+      auth: { user: current_user }
+    }
+  end
 
   # GET /
   def show_home

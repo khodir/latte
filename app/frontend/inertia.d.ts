@@ -15,8 +15,8 @@ declare module '@inertiajs/core' {
       }
     }
     flash?: {
-      success?: string
-      error?: string
+      notice?: string
+      alert?: string
     }
     // Add other shared props here
   }
