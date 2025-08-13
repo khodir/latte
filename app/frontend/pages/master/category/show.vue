@@ -91,14 +91,13 @@
 </template>
 
 <script setup lang="ts">
-import { Link, router, usePage } from '@inertiajs/vue3';
-import { onMounted, ref } from 'vue';
+import { Link, router } from '@inertiajs/vue3';
+import { ref } from 'vue';
 import { useQuasar } from 'quasar';
 
 const q = useQuasar();
 const search = ref('');
 const { pagination, data } = defineProps(['pagination', 'data']);
-const page = usePage()
 
 const onSearch = () => {
   router.visit('/master/category', { 
@@ -121,28 +120,8 @@ const onDelete = (id: Number) => {
       preserveState: true,
       preserveScroll: true,
       replace: true,
-      only: ['pagination', 'data']
+      only: ['pagination', 'data', 'flash']
     });
   });
 }
-
-onMounted(() => {
-  if (!!page.props.flash?.error) {
-    q.notify({
-      type: 'negative',
-      message: page.props.flash.error,
-      position: 'top-right',
-      timeout: 3000
-    });
-  }
-
-  if (!!page.props.flash?.success) {
-    q.notify({
-      type: 'positive',
-      message: page.props.flash.success,
-      position: 'top-right',
-      timeout: 3000
-    });
-  }
-});
 </script>

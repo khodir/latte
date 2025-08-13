@@ -13,7 +13,7 @@
             <!-- Email -->
             <q-input label="Email" v-model="frm.email"
             :error="!!frm.errors.email"
-            :error-message="!!frm.errors.email ? frm.errors.email[0] : ''">
+            :error-message="frm.errors.email">
               <template v-slot:prepend>
                 <q-icon name="fas fa-user-tie"></q-icon>
               </template>
@@ -21,7 +21,7 @@
             <!-- Password -->
             <q-input label="Password" :type="passwordType" v-model="frm.password"
             :error="!!frm.errors.password"
-            :error-message="!!frm.errors.password ? frm.errors.password[0] : ''">
+            :error-message="frm.errors.password">
               <template v-slot:prepend>
                 <q-icon name="fas fa-lock"></q-icon>
               </template>

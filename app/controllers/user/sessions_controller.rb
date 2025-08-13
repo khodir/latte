@@ -27,7 +27,9 @@ class User::SessionsController < Devise::SessionsController
 
       sign_in(@user)
       remember_me(@user) if creds.remember_me
-      redirect_to root_path, inertia: { flash: { notice: "Signed in successfully." } }
+      flash[:success] = "Signed in successfully."
+
+      redirect_to root_path
     else
       redirect_back fallback_location: root_path, inertia: { errors: { password: [ "Invalid Password" ] } }
     end
@@ -38,7 +40,7 @@ class User::SessionsController < Devise::SessionsController
     forget_me(current_user) if current_user
     sign_out(current_user)
 
-    flash[:notice] = "Signed out successfully."
+    flash[:success] = "Signed out successfully."
     redirect_to action: :new
   end
 

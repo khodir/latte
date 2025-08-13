@@ -51,10 +51,12 @@
 
 <script setup lang="ts">
 import { computed, ref, provide, reactive } from 'vue'
-import { Link, usePage } from '@inertiajs/vue3'
+import { Link, usePage, router } from '@inertiajs/vue3'
 import Menu from '@/components/menu/menu.vue'
 import menuitems from "@/menu.json"
+import { useQuasar } from 'quasar'
 
+const q = useQuasar();
 const page = usePage()
 const { auth } = defineProps(['auth'])
 
@@ -71,4 +73,42 @@ const layoutData = reactive({
 })
 
 provide('layoutData', layoutData)
+
+router.on('finish', () => {
+  if (!!page.props.flash?.error) {
+    q.notify({
+      type: 'negative',
+      message: page.props.flash.error,
+      position: 'top-right',
+      timeout: 3000
+    });
+  }
+
+  if (!!page.props.flash?.success) {
+    q.notify({
+      type: 'positive',
+      message: page.props.flash.success,
+      position: 'top-right',
+      timeout: 3000
+    });
+  }
+
+  if (!!page.props.flash?.notice) {
+    q.notify({
+      type: 'info',
+      message: page.props.flash.notice,
+      position: 'top-right',
+      timeout: 3000
+    });
+  }
+
+  if (!!page.props.flash?.alert) {
+    q.notify({
+      type: 'warning',
+      message: page.props.flash.alert,
+      position: 'top-right',
+      timeout: 3000
+    });
+  }
+})
 </script>

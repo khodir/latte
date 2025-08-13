@@ -1,7 +1,7 @@
 module ApplicationHelper
   # Handle Not Found
   def handle_not_found(e)
-    flash[:alert] = e.message
+    flash[:error] = e.message
     redirect_back fallback_location: root_path
   end
 
@@ -23,7 +23,7 @@ module ApplicationHelper
     errors = {}
 
     if e.is_a?(ActiveModel::Errors)
-      e.messages.each { |k, v| errors["#{k}"] = e.full_messages_for(k) }
+      e.messages.each { |k, v| errors["#{k}"] = e.full_messages_for(k).first }
     end
 
     errors

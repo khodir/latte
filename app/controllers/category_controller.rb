@@ -1,5 +1,5 @@
 class CategoryController < ApplicationController
-  # GET /category
+  # GET /master/category
   def show
     @data = Category.by_perusahaan(@current_perusahaan.id)
     @data = @data.where("nama_category LIKE ?", "%#{params[:q]}%") if params[:q].present?
@@ -14,12 +14,12 @@ class CategoryController < ApplicationController
     }
   end
 
-  # GET /category/new
+  # GET /master/category/new
   def new
     render inertia: "master/category/new"
   end
 
-  # GET /category/edit/:id
+  # GET /master/category/edit/:id
   def edit
     @data = Category.by_perusahaan(@current_perusahaan.id).find_by!(id: params[:id])
     render inertia: "master/category/edit", props: {
@@ -27,7 +27,7 @@ class CategoryController < ApplicationController
     }
   end
 
-  # POST /category
+  # POST /master/category
   def create
     @data = Category.new
     @data.assign_attributes(category_params)
@@ -39,7 +39,7 @@ class CategoryController < ApplicationController
     redirect_to action: :show
   end
 
-  # PUT /category/:id
+  # PUT /master/category/:id
   def update
     @data = Category.by_perusahaan(@current_perusahaan).find_by!(id: params[:id])
     @data.assign_attributes(category_params)
@@ -50,7 +50,7 @@ class CategoryController < ApplicationController
     redirect_to action: :show
   end
 
-  # DELETE /category/:id
+  # DELETE /master/category/:id
   def destroy
     @data = Category.by_perusahaan(@current_perusahaan).find_by!(id: params[:id])
     @data.destroy!

@@ -33,5 +33,15 @@ Rails.application.routes.draw do
       put "/:id", to: "category#update"
       delete "/:id", to: "category#destroy"
     end
+
+    # item
+    scope "item" do
+      get "/", to: "item#show"
+      get "/new", to: "item#new"
+      get "/edit/:id", to: "item#edit"
+      post "/", to: "item#create"
+      put "/:id", to: "item#update"
+      delete "/:id", to: "item#destroy"
+    end
   end
 end

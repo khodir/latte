@@ -11,10 +11,9 @@ class ApplicationController < ActionController::Base
   # filters
   before_action :authenticate_user!
   before_action :set_auth_data!
-
   # inertia
   inertia_share app_name: -> { "Latte" }
-  inertia_share flash: -> { flash.to_h }
+  inertia_share flash: -> { flash.to_hash }
   inertia_share if: :user_signed_in? do
     {
       auth: { user: current_user, perusahaan: current_perusahaan }
