@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_12_182535) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_13_085751) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_uca1400_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -37,6 +37,57 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_12_182535) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "category", charset: "utf8mb4", collation: "utf8mb4_uca1400_ai_ci", force: :cascade do |t|
+    t.bigint "perusahaan_id", null: false
+    t.string "nama_category", null: false
+    t.string "keterangan"
+    t.string "created_by"
+    t.string "updated_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["perusahaan_id", "nama_category"], name: "index_category_on_perusahaan_id_and_nama_category", unique: true
+    t.index ["perusahaan_id"], name: "index_category_on_perusahaan_id"
+  end
+
+  create_table "item", charset: "utf8mb4", collation: "utf8mb4_uca1400_ai_ci", force: :cascade do |t|
+    t.bigint "perusahaan_id", null: false
+    t.string "kode_item", null: false
+    t.string "nama_item", null: false
+    t.string "keterangan"
+    t.string "created_by"
+    t.string "updated_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["nama_item"], name: "index_item_on_nama_item"
+    t.index ["perusahaan_id", "kode_item"], name: "index_item_on_perusahaan_id_and_kode_item", unique: true
+    t.index ["perusahaan_id"], name: "index_item_on_perusahaan_id"
+  end
+
+  create_table "item_category", charset: "utf8mb4", collation: "utf8mb4_uca1400_ai_ci", force: :cascade do |t|
+    t.bigint "item_id", null: false
+    t.bigint "category_id", null: false
+    t.string "created_by"
+    t.string "updated_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_item_category_on_category_id"
+    t.index ["item_id", "category_id"], name: "index_item_category_on_item_id_and_category_id", unique: true
+    t.index ["item_id"], name: "index_item_category_on_item_id"
+  end
+
+  create_table "perusahaan", charset: "utf8mb4", collation: "utf8mb4_uca1400_ai_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "nama_perusahaan", null: false
+    t.string "alamat"
+    t.string "no_telepon"
+    t.string "created_by"
+    t.string "updated_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["nama_perusahaan"], name: "index_perusahaan_on_nama_perusahaan"
+    t.index ["user_id"], name: "index_perusahaan_on_user_id"
   end
 
   create_table "solid_cable_messages", charset: "utf8mb4", collation: "utf8mb4_uca1400_ai_ci", force: :cascade do |t|
@@ -209,6 +260,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_12_182535) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "category", "perusahaan"
+  add_foreign_key "item", "perusahaan"
+  add_foreign_key "item_category", "category", on_delete: :cascade
+  add_foreign_key "item_category", "item", on_delete: :cascade
+  add_foreign_key "perusahaan", "users"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_failed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
