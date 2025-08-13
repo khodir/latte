@@ -5,11 +5,7 @@ class ItemController < ApplicationController
     @categories = Category.by_perusahaan(@current_perusahaan.id)
     @data = Item.includes(:category, :image_attachment).by_perusahaan(@current_perusahaan.id)
     @data = @data.where("kode_item LIKE :q OR nama_item LIKE :q", { q: "%#{params[:q]}%" }) if params[:q].present?
-
-    @c_ids = params[:c]
-    @c_ids ||= ""
-    @c_ids = @c_ids.split(",").map(&:to_i)
-    @data = @data.where(category: { id: @c_ids }) if @c_ids.any?
+    @data = @data.where(category: { id: params[:c] }) if params[:c].present? && params[:c].is_a?(Array)
 
     total = @data.count
     @pagination = paginate(total)

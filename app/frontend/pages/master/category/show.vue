@@ -105,7 +105,6 @@ const onSearch = () => {
     preserveScroll: true,
     preserveState: true,
     preserveUrl: true,
-    only: ['pagination', 'data'], 
     data: { q: search.value, page: pagination.current_page, per_page: pagination.per_page } 
   });
 };
@@ -120,7 +119,6 @@ const onDelete = (id: Number) => {
       preserveState: true,
       preserveScroll: true,
       replace: true,
-      only: ['pagination', 'data', 'flash']
     });
   });
 }
