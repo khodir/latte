@@ -123,9 +123,19 @@
                     {{ cat.nama_category }}
                   </q-chip>
                 </div>
+
                 <!-- Description -->
                 <q-separator class="q-my-sm" />
                 {{ row.keterangan }}
+
+                <!-- Action -->
+                <div class="row">
+                  <div class="col">
+                    <div class="float-right">
+                      <q-btn @click="onDelete(row.id)" icon="fas fa-trash" color="negative" outline/>
+                    </div>
+                  </div>
+                </div>
               </q-card-section>
             </q-card>
           </div>
@@ -154,7 +164,7 @@
 
 <script setup lang="ts">
 import { Link, router } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useQuasar } from 'quasar';
 
 const q = useQuasar();
@@ -204,4 +214,9 @@ const onDelete = (id: Number) => {
     });
   });
 }
+
+watch(
+  () => cat.value,
+  () => onSearch()
+)
 </script>
