@@ -92,12 +92,15 @@
 
 <script setup lang="ts">
 import { Link, router } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useQuasar } from 'quasar';
 
 const q = useQuasar();
 const search = ref('');
 const { pagination, data } = defineProps(['pagination', 'data']);
+const searchParam = computed(() => {
+  return { q: search.value, page: pagination.current_page, per_page: pagination.per_page }
+})
 
 const onSearch = () => {
   router.visit('/master/category', { 
@@ -105,7 +108,7 @@ const onSearch = () => {
     preserveScroll: true,
     preserveState: true,
     preserveUrl: true,
-    data: { q: search.value, page: pagination.current_page, per_page: pagination.per_page } 
+    data: searchParam.value
   });
 };
 
@@ -119,7 +122,7 @@ const onDelete = (id: Number) => {
       preserveState: true,
       preserveScroll: true,
       replace: true,
-      onFinish: () => onSearch()
+      data: searchParam.value,
     });
   });
 }

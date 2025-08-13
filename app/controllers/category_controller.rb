@@ -2,7 +2,7 @@ class CategoryController < ApplicationController
   # GET /master/category
   def show
     @data = Category.by_perusahaan(@current_perusahaan.id)
-    @data = @data.where("nama_category LIKE ?", "%#{params[:q]}%") if params[:q].present?
+    @data = @data.where("nama_category LIKE ?", "%#{search_param[:q]}%") if search_param[:q].present?
 
     total = @data.count
     @pagination = paginate(total)
@@ -56,10 +56,14 @@ class CategoryController < ApplicationController
     @data.destroy!
 
     flash[:success] = "Category deleted successfully."
-    redirect_to action: :show
+    redirect_to search_param.merge(action: :show)
   end
 
   private
+  def search_param
+    params.permit(:q)
+  end
+
   def category_params
     params.permit(:nama_category, :keterangan)
   end

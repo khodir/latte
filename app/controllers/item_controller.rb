@@ -1,11 +1,14 @@
 class ItemController < ApplicationController
   # GET /master/item
   def show
-    params[:per_page] ||= 9
+    search_param[:per_page] ||= 9
     @categories = Category.by_perusahaan(@current_perusahaan.id)
     @data = Item.includes(:category, :image_attachment).by_perusahaan(@current_perusahaan.id)
-    @data = @data.where("kode_item LIKE :q OR nama_item LIKE :q", { q: "%#{params[:q]}%" }) if params[:q].present?
-    @data = @data.where(category: { id: params[:c] }) if params[:c].present? && params[:c].is_a?(Array)
+    @data = @data.where("kode_item LIKE :q OR nama_item LIKE :q", { q: "%#{search_param[:q]}%" }) if search_param[:q].present?
+    if search_param[:c].present? && search_param[:c].is_a?(Array)
+      @ids = @data.joins(:category).where(category: { id: search_param[:c] }).pluck(:id)
+      @data = @data.where(id: @ids)
+    end
 
     total = @data.count
     @pagination = paginate(total)
@@ -106,10 +109,14 @@ class ItemController < ApplicationController
     @data.destroy!
 
     flash[:success] = "Item deleted successfully"
-    redirect_to action: :show
+    redirect_to search_param.merge(action: :show)
   end
 
   private
+  def search_param
+    params.permit(:q, :page, :per_page, c: [])
+  end
+
   def item_params
     params.permit(:kode_item, :nama_item, :keterangan)
   end

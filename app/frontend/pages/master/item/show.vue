@@ -164,7 +164,7 @@
 
 <script setup lang="ts">
 import { Link, router } from '@inertiajs/vue3';
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useQuasar } from 'quasar';
 
 const q = useQuasar();
@@ -189,13 +189,17 @@ const filterCategory = (query: string, update: (fn: () => void) => void) => {
   }
 }
 
+const searchParam = computed(() => {
+  return { q: search.value, c: cat.value, page: pagination.current_page, per_page: pagination.per_page }
+});
+
 const onSearch = () => {
   router.visit('/master/item', { 
     replace: true,
     preserveScroll: true,
     preserveState: true,
     preserveUrl: true, 
-    data: { q: search.value, c: cat.value, page: pagination.current_page, per_page: pagination.per_page } 
+    data: searchParam.value
   });
 };
 
@@ -209,7 +213,7 @@ const onDelete = (id: Number) => {
       preserveState: true,
       preserveScroll: true,
       replace: true,
-      onFinish: () => onSearch()
+      data: searchParam.value
     });
   });
 }
