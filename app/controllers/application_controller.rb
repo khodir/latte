@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   # error handling
   rescue_from ActiveModel::ValidationError, with: :handle_validation_errors
   rescue_from ActiveRecord::RecordInvalid, with: :handle_validation_errors
+  rescue_from ActiveRecord::RecordNotFound, with: :handle_not_found
 
   # filters
   before_action :authenticate_user!
