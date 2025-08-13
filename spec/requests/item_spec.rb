@@ -1,7 +1,25 @@
 require 'rails_helper'
 
 RSpec.describe "Items", type: :request do
-  describe "GET /index" do
-    pending "add some examples (or delete) #{__FILE__}"
+  fixtures :users, :perusahaans
+
+  before(:each) {
+    sign_in users(:admin), scope: :user
+  }
+
+  after(:each) {
+    sign_out :user
+  }
+
+  describe "GET /master/item" do
+    it "returns a successful response" do
+      get show_item_path
+
+      expect(response).to have_http_status(:success)
+      expect(assigns(:pagination)).not_to be_nil
+
+      pagination = assigns(:pagination)
+      expect(pagination[:total]).to eq Item.count
+    end
   end
 end

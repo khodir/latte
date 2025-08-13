@@ -1,0 +1,19 @@
+makanan:
+  perusahaan: default
+  nama_category: makanan
+
+minuman:
+  perusahaan: default
+  nama_category: minuman
+
+milk_based:
+  perusahaan: default
+  nama_category: milk-based
+
+coffe_based:
+  perusahaan: default
+  nama_category: coffe-based
+
+snacks:
+  perusahaan: default
+  nama_category: snacks
