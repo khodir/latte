@@ -26,22 +26,22 @@ Rails.application.routes.draw do
   scope "master" do
     # category
     scope "category" do
-      get "/", to: "category#show", as: :show_category
-      get "/new", to: "category#new", as: :new_category
-      get "/edit/:id", to: "category#edit", as: :edit_category
-      post "/", to: "category#create", as: :create_category
-      put "/:id", to: "category#update", as: :update_category
-      delete "/:id", to: "category#destroy", as: :destroy_category
+      get "/", to: "category#show"
+      get "/new", to: "category#new"
+      get "/edit/:id", to: "category#edit"
+      post "/", to: "category#create"
+      put "/:id", to: "category#update"
+      delete "/:id", to: "category#destroy"
     end
 
     # item
     scope "item" do
-      get "/", to: "item#show", as: :show_item
-      get "/new", to: "item#new", as: :new_item
-      get "/edit/:id", to: "item#edit", as: :edit_item
-      post "/", to: "item#create", as: :create_item
-      put "/:id", to: "item#update", as: :update_item
-      delete "/:id", to: "item#destroy", as: :destroy_item
+      get "/", to: "item#show"
+      get "/new", to: "item#new"
+      get "/edit/:id", to: "item#edit"
+      post "/", to: "item#create"
+      put "/:id", to: "item#update"
+      delete "/:id", to: "item#destroy"
     end
   end
 end

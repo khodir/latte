@@ -13,7 +13,7 @@ RSpec.describe "Items", type: :request do
 
   describe "GET /master/item" do
     it "returns a successful response" do
-      get show_item_path
+      get url_for(controller: :item, action: :show)
 
       expect(response).to have_http_status(:success)
       expect(assigns(:pagination)).not_to be_nil

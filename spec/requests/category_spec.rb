@@ -16,7 +16,7 @@ RSpec.describe "Categories", type: :request do
 
   describe "GET /master/category" do
     it "should return a successful response" do
-      get show_category_path
+      get url_for(controller: :category, action: :show)
       expect(response).to have_http_status(:success)
 
       pagination = assigns(:pagination)
@@ -32,7 +32,7 @@ RSpec.describe "Categories", type: :request do
 
   describe "GET /master/category/new" do
     it "should return a successful response" do
-      get new_category_path
+      get url_for(controller: :category, action: :new)
       expect(response).to have_http_status(:success)
     end
   end
@@ -41,7 +41,7 @@ RSpec.describe "Categories", type: :request do
     it "should return a successful response" do
       category = categories(:makanan)
 
-      get edit_category_path(id: category.id)
+      get url_for(controller: :category, action: :edit, id: category.id)
       expect(response).to have_http_status(:success)
 
       expect(assigns(:data)).to eq(category)
@@ -55,7 +55,7 @@ RSpec.describe "Categories", type: :request do
         keterangan: Faker::Lorem.sentence(word_count: 5)
       }
 
-      post create_category_path, params: req
+      post url_for(controller: :category, action: :create), params: req
       expect(response).to have_http_status(:redirect)
 
       category = assigns(:data)
@@ -74,7 +74,7 @@ RSpec.describe "Categories", type: :request do
         keterangan: Faker::Lorem.sentence(word_count: 5)
       }
 
-      put update_category_path(id: category.id), params: req
+      put url_for(controller: :category, action: :update, id: category.id), params: req
       expect(response).to have_http_status(:redirect)
 
       category.reload
@@ -89,7 +89,7 @@ RSpec.describe "Categories", type: :request do
     it "should destroy category" do
       category = categories(:coffe_based)
 
-      delete destroy_category_path(id: category.id)
+      delete url_for(controller: :category, action: :destroy, id: category.id)
       expect(response).to have_http_status(:redirect)
 
       destroyed = assigns(:data)
