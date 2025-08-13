@@ -21,4 +21,17 @@ Rails.application.routes.draw do
 
   root "application#show_home"
   get "login", to: "application#show_login", as: :login
+
+  # master
+  scope "master" do
+    # category
+    scope "category" do
+      get "/", to: "category#show"
+      get "/new", to: "category#new"
+      get "/edit/:id", to: "category#edit"
+      post "/", to: "category#create"
+      put "/:id", to: "category#update"
+      delete "/:id", to: "category#destroy"
+    end
+  end
 end

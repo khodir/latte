@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
 
   # filters
   before_action :authenticate_user!
-  before_action :set_current_perusahaan!
+  before_action :set_auth_data!
 
   # inertia
   inertia_share app_name: -> { "Latte" }
@@ -27,8 +27,9 @@ class ApplicationController < ActionController::Base
   end
 
   private
-  def set_current_perusahaan!
-    @current_perusahaan = Perusahaan.find_by(user: current_user)
+  def set_auth_data!
+    @current_user = current_user
+    @current_perusahaan = Perusahaan.find_by(user: @current_user)
   end
 
   def current_perusahaan

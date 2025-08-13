@@ -6,6 +6,8 @@ class Item < ApplicationRecord
   has_many :category, through: :item_category
   has_one_attached :image
 
+  scope :by_perusahaan, ->(perusahaan_id) { where(perusahaan_id: perusahaan_id) }
+
   validates_presence_of :kode_item, :nama_item
   validates_uniqueness_of :kode_item, scope: :perusahaan_id
 end
