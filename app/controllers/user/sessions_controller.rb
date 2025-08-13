@@ -2,6 +2,7 @@
 
 class User::SessionsController < Devise::SessionsController
   include ApplicationHelper
+  include Devise::Controllers::Rememberable
   # before_action :configure_sign_in_params, only: [:create]
 
   rescue_from ActiveModel::ValidationError, with: :handle_validation_errors
@@ -28,13 +29,16 @@ class User::SessionsController < Devise::SessionsController
       remember_me(@user) if creds.remember_me
       redirect_to root_path, inertia: { flash: { notice: "Signed in successfully." } }
     else
-      redirect_back fallback_location: root_path, inertia: { errors: format_validation_errors(@user&.errors || creds.errors) }
+      redirect_back fallback_location: root_path, inertia: { errors: { password: [ "Invalid Password" ] } }
     end
   end
 
   # DELETE /resource/sign_out
   def destroy
-    super
+    forget_me(current_user) if current_user
+    sign_out(current_user)
+
+    redirect_to action: :new
   end
 
   # protected

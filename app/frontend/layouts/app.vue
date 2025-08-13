@@ -9,7 +9,7 @@
           <span>{{ page.props.appName }}</span>
         </q-toolbar-title>
         <q-space />
-        <Link href="/logout" method="post">
+        <Link href="/users/sign_out" method="delete">
           <q-btn flat round icon="fas fa-sign-out" />
         </Link>
       </q-toolbar>
@@ -26,7 +26,7 @@
         <!-- Username -->
         <div class="text-body1 text-bold q-mt-sm">{{ auth?.user?.email }}</div>
         <!-- User Role -->
-        <div class="text-subtitle2 text-grey-7">{{ auth?.user?.name }}</div>
+        <!-- <div class="text-subtitle2 text-grey-7">{{ auth?.user?.name }}</div> -->
         <!-- Changeable Current Branch -->
         <div class="text-subtitle2 text-grey-7 q-mt-xs">
           {{ auth?.perusahaan?.nama_perusahaan }}

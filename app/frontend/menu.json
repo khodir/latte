@@ -22,7 +22,7 @@
     {
         "label": "Logout",
         "icon": "fas fa-sign-out-alt",
-        "link": "/logout",
-        "method": "post"
+        "link": "/users/sign_out",
+        "method": "delete"
     }
 ]
