@@ -15,12 +15,17 @@ class ApplicationController < ActionController::Base
   inertia_share flash: -> { flash.to_h }
   inertia_share if: :user_signed_in? do
     {
-      auth: { user: current_user }
+      auth: { user: current_user, perusahaan: current_perusahaan }
     }
   end
 
   # GET /
   def show_home
     render inertia: "home"
+  end
+
+  private
+  def current_perusahaan
+    @current_perusahaan ||= Perusahaan.find_by(user: current_user)
   end
 end
