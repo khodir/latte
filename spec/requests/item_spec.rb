@@ -76,6 +76,7 @@ RSpec.describe "Items", type: :request do
       expect(item.created_by).to eq(current_user.email)
       expect(item.category.pluck(:id)).to match_array([ categories(:makanan).id, categories(:minuman).id ])
       expect(item.image).to be_attached
+      expect(item.image.filename).to eq('test_image.jpg')
     end
   end
 
@@ -104,6 +105,7 @@ RSpec.describe "Items", type: :request do
       expect(updated_item.as_json).to include(update_params.as_json(only: [ :kode_item, :nama_item ]))
       expect(updated_item.category.pluck(:id)).to match_array([ categories(:minuman).id ])
       expect(updated_item.image).to be_attached
+      expect(updated_item.image.filename).to eq('test_image.jpg')
     end
   end
 
