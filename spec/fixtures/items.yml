@@ -1,0 +1,20 @@
+espresso:
+  perusahaan: default
+  kode_item: "ESP-001"
+  nama_item: "Espresso"
+  keterangan: "Strong coffee shot"
+  created_by: "admin@example.com"
+
+cappuccino:
+  perusahaan: default
+  kode_item: "CAP-001"
+  nama_item: "Cappuccino"
+  keterangan: "Espresso with steamed milk foam"
+  created_by: "admin@example.com"
+
+croissant:
+  perusahaan: default
+  kode_item: "CRS-001"
+  nama_item: "Croissant"
+  keterangan: "Buttery pastry"
+  created_by: "admin@example.com"
