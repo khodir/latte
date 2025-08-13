@@ -56,9 +56,6 @@ group :development, :test do
 
   # coverage
   gem "simplecov", require: false
-
-  # faker
-  gem "faker"
 end
 
 group :development do
@@ -72,16 +69,22 @@ group :test do
   gem "selenium-webdriver"
 end
 
+# faker
+gem "faker"
+
+# s3 sdk
 gem "aws-sdk-s3", require: false
 
+# vite and inertia
 gem "inertia_rails", "~> 3.10"
 gem "vite_rails", "~> 3.0"
 
+# observability
 gem "opentelemetry-sdk", "~> 1.8"
 gem "opentelemetry-instrumentation-all", "~> 0.78.0"
 gem "opentelemetry-exporter-otlp", "~> 0.30.0"
 gem "opentelemetry-instrumentation-rails", "~> 0.36.0"
-
 gem "prometheus_exporter", "~> 2.2"
 
+# authentication
 gem "devise", "~> 4.9"
