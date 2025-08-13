@@ -209,6 +209,7 @@ const onDelete = (id: Number) => {
       preserveState: true,
       preserveScroll: true,
       replace: true,
+      onFinish: () => onSearch()
     });
   });
 }
