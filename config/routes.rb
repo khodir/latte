@@ -13,9 +13,11 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   # devise routes
-  devise_for :users, controllers: {
-    sessions: "user/sessions"
-  }
+  devise_for :users,
+    controllers: {
+      sessions: "user/sessions"
+    },
+    only: [ :sessions ]
 
   root "application#show_home"
   get "login", to: "application#show_login", as: :login
