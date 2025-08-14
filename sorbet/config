@@ -3,4 +3,3 @@
 --ignore=tmp/
 --ignore=vendor/
 --ignore=node_modules/
---ignore=spec/
