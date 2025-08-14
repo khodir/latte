@@ -1,3 +1,5 @@
+# typed: true
+
 class CategoryController < ApplicationController
   # GET /master/category
   def show
