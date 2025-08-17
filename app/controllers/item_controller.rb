@@ -60,7 +60,11 @@ class ItemController < ApplicationController
 
       # item image
       if image_params[:image].present?
-        @data.image.attach(image_params[:image])
+        @data.image.attach(
+          key: "items/images/#{@data.id}/#{SecureRandom.uuid}",
+          io: image_params[:image].tempfile,
+          filename: image_params[:image].original_filename
+        )
       end
     end
 
@@ -97,7 +101,11 @@ class ItemController < ApplicationController
 
       # attach image
       if image_params[:image].present?
-        @data.image.attach(image_params[:image])
+        @data.image.attach(
+          key: "items/images/#{@data.id}/#{SecureRandom.uuid}",
+          io: image_params[:image].tempfile,
+          filename: image_params[:image].original_filename
+        )
       end
     end
 
