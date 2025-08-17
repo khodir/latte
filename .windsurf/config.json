@@ -46,6 +46,50 @@
       "required_coverage": ["validations", "associations", "scopes", "CRUD operations", "multi-tenancy", "authorization"]
     }
   },
+  "ui_guidelines": {
+    "layout_structure": {
+      "page_container": "q-page class=\"q-pa-md\"",
+      "content_wrapper": "q-card with sections",
+      "header_section": "icon + title + action buttons",
+      "separator": "q-separator between sections",
+      "body_section": "search, filters, and data display"
+    },
+    "header_pattern": {
+      "layout": "row with icon, title on left, action buttons on right",
+      "icon": "primary icon with text-primary class and q-pr-md spacing",
+      "buttons": "Add button with fas fa-plus icon and color=\"primary\"",
+      "form_buttons": "Save/Cancel buttons with fas fa-save and fas fa-times-circle"
+    },
+    "search_filters": {
+      "search_input": "fab fa-searchengin icon with debounced search (300ms delay)",
+      "filters": "q-select with chips for category filters",
+      "view_toggle": "Toggle for table/card view where applicable"
+    },
+    "data_display": {
+      "table": "q-markup-table with flat separator=\"cell\" bordered",
+      "header": "bg-primary text-white tw-font-semibold",
+      "actions": "edit (positive) and delete (negative) buttons",
+      "pagination": "showing \"X to Y of Z\" text"
+    },
+    "form_patterns": {
+      "form": "q-form with @submit.prevent",
+      "submit": "hidden submit input for form submission",
+      "inputs": "icons in input prepend slots",
+      "validation": "error handling with :error and :error-message",
+      "layout": "responsive grid with col-12 col-sm-6 classes"
+    },
+    "icons": {
+      "library": "Font Awesome icons consistently used",
+      "semantic": "fa-tags (category), fa-box (items), fa-user (customers)",
+      "actions": "fa-plus (add), fa-edit (edit), fa-trash (delete), fa-save (save)"
+    },
+    "colors": {
+      "primary": "main actions and headers",
+      "positive": "edit actions",
+      "negative": "delete actions",
+      "secondary": "chips and tags"
+    }
+  },
   "templates": {
     "model": "# typed: true\n\nclass {{ModelName}} < ApplicationRecord\n  belongs_to :perusahaan\n  scope :by_perusahaan, ->(perusahaan_id) { where(perusahaan_id: perusahaan_id) }\n  validates_presence_of :{{required_field}}\n  \n  def as_json(options = {})\n    super(options)\n  end\nend",
     "controller": "# typed: true\n\nclass {{ModelName}}Controller < ApplicationController\n  def show\n    @data = {{ModelName}}.by_perusahaan(@current_perusahaan.id)\n    render inertia: \"{{path}}/show\", props: { data: @data }\n  end\n  \n  private\n  \n  def {{model_name}}_params\n    params.permit(:field1, :field2)\n  end\nend",

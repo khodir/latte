@@ -1,92 +1,88 @@
 <template>
-  <q-page padding>
+  <q-page class="q-pa-md">
     <q-card>
       <q-card-section>
-        <h5 class="text-h5 q-my-none">Add New Customer</h5>
+        <div class="row items-center">
+          <div class="col">
+            <q-icon name="fas fa-user" size="sm" class="text-primary q-pr-md" />
+            <span class="text-subtitle1">New Customer</span>
+          </div>
+          <div class="col-auto q-gutter-sm">
+            <q-btn @click="e => ($refs.customerFrm as QForm).submit(e)" color="primary" icon="fas fa-save" />
+            <q-btn @click="onCancel" color="negative" icon="fas fa-times-circle" />
+          </div>
+        </div>
       </q-card-section>
-      
-      <q-form @submit="onSubmit">
-        <q-card-section>
-          <div class="row q-gutter-md">
-            <div class="col-12 col-md-6">
-              <q-input
-                v-model="form.nama_customer"
-                label="Customer Name *"
-                outlined
-                :error="!!props.errors?.nama_customer"
-                :error-message="props.errors?.nama_customer"
-              />
+      <q-separator/>
+      <q-card-section>
+        <q-form ref="customerFrm" @submit.prevent="frm.post(`/master/customer`)">
+          <input type="submit" hidden />
+          <!-- Row 1 -->
+          <div class="row q-col-gutter-sm">
+            <!-- ID -->
+            <div class="col-12 col-sm-6">
+              <q-input label="ID" readonly v-model="frm.id" :error="!!frm.errors.id" :error-message="frm.errors.id">
+                <template v-slot:prepend>
+                  <q-icon name="fas fa-list-ol" />
+                </template>
+              </q-input>
             </div>
-            <div class="col-12 col-md-6">
-              <q-input
-                v-model="form.email"
-                label="Email"
-                type="email"
-                outlined
-                :error="!!props.errors?.email"
-                :error-message="props.errors?.email"
-              />
-            </div>
-            <div class="col-12 col-md-6">
-              <q-input
-                v-model="form.no_telp"
-                label="Phone Number"
-                outlined
-                :error="!!props.errors?.no_telp"
-                :error-message="props.errors?.no_telp"
-              />
-            </div>
-            <div class="col-12">
-              <q-input
-                v-model="form.alamat"
-                label="Address"
-                type="textarea"
-                rows="3"
-                outlined
-                :error="!!props.errors?.alamat"
-                :error-message="props.errors?.alamat"
-              />
+            <!-- Nama Customer -->
+            <div class="col-12 col-sm-6">
+              <q-input label="Nama Customer" v-model="frm.nama_customer" :error="!!frm.errors.nama_customer" :error-message="frm.errors.nama_customer">
+                <template v-slot:prepend>
+                  <q-icon name="fas fa-user" />
+                </template>
+              </q-input>
             </div>
           </div>
-        </q-card-section>
-        
-        <q-card-actions align="right">
-          <q-btn 
-            flat 
-            label="Cancel" 
-            :to="{ name: 'customer.show' }"
-          />
-          <q-btn 
-            type="submit" 
-            color="primary" 
-            label="Save Customer"
-            :loading="form.processing"
-          />
-        </q-card-actions>
-      </q-form>
+          <!-- Row 2 -->
+          <div class="row q-col-gutter-sm">
+            <!-- Email -->
+            <div class="col-12 col-sm-6">
+              <q-input label="Email" v-model="frm.email" :error="!!frm.errors.email" :error-message="frm.errors.email">
+                <template v-slot:prepend>
+                  <q-icon name="fas fa-envelope" />
+                </template>
+              </q-input>
+            </div>
+            <!-- No Telp -->
+            <div class="col-12 col-sm-6">
+              <q-input label="No. Telp" v-model="frm.no_telp" :error="!!frm.errors.no_telp" :error-message="frm.errors.no_telp">
+                <template v-slot:prepend>
+                  <q-icon name="fas fa-phone" />
+                </template>
+              </q-input>
+            </div>
+          </div>
+          <!-- Row 3 -->
+          <div class="row q-col-gutter-sm">
+            <!-- Alamat -->
+            <div class="col-12">
+              <q-input type="textarea" label="Alamat" v-model="frm.alamat" :error="!!frm.errors.alamat" :error-message="frm.errors.alamat">
+                <template v-slot:prepend>
+                  <q-icon name="fas fa-map-marker-alt" />
+                </template>
+              </q-input>
+            </div>
+          </div>
+        </q-form>
+      </q-card-section>
     </q-card>
   </q-page>
 </template>
 
-<script setup lang="ts">
-import { useForm } from '@inertiajs/vue3'
+<script lang="ts" setup>
+import { useForm, router } from '@inertiajs/vue3';
+import { QForm } from 'quasar';
 
-interface Props {
-  errors?: Record<string, string>
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  errors: () => ({})
-})
-
-const form = useForm({
+const frm = useForm({
+  id: 0,
   nama_customer: '',
   email: '',
   no_telp: '',
   alamat: ''
 })
 
-const onSubmit = () => {
-  form.post('/master/customer')
-}
+const onCancel = () => router.visit('/master/customer');
 </script>

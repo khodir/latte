@@ -1,194 +1,133 @@
 <template>
-  <q-page padding>
-    <div class="row q-mb-md">
-      <div class="col">
-        <h4 class="text-h4 q-my-none">Customer List</h4>
-      </div>
-      <div class="col-auto">
-        <q-btn 
-          color="primary" 
-          icon="add" 
-          label="Add Customer"
-          :to="{ name: 'customer.new' }"
-        />
-      </div>
-    </div>
-    
-    <!-- Search -->
-    <q-card class="q-mb-md">
+  <q-page class="q-pa-md">
+    <q-card>
+      <!-- Headers -->
       <q-card-section>
-        <div class="row q-gutter-md">
+        <div class="row items-center">
           <div class="col">
-            <q-input
-              v-model="searchForm.q"
-              label="Search customers..."
-              outlined
-              dense
-              placeholder="Search by name, email, or phone"
-              @keyup.enter="search"
-            />
+            <q-icon name="fas fa-user" size="sm" class="text-primary q-pr-md" />
+            <span class="text-subtitle1">Customer</span>
           </div>
           <div class="col-auto">
-            <q-btn color="primary" @click="search">Search</q-btn>
-            <q-btn flat @click="clearSearch" class="q-ml-sm">Clear</q-btn>
+            <Link href="/master/customer/new">
+              <q-btn icon="fas fa-plus" color="primary" />
+            </Link>
           </div>
         </div>
       </q-card-section>
+      <q-separator />
+      <!-- Body -->
+      <q-card-section>
+        <!-- Search -->
+        <div class="row q-mb-md">
+          <div class="col">
+            <q-input
+              v-model="search"
+              debounce="300"
+              placeholder="Search Here..."
+              class="full-width"
+              @update:model-value="onSearch"
+            >
+              <template v-slot:prepend>
+                <q-icon name="fab fa-searchengin"/>
+              </template>
+            </q-input>
+          </div>
+        </div>
+        <!-- Table -->
+        <q-markup-table flat separator="cell" bordered>
+          <thead>
+            <tr class="text-body1 tw-font-semibold bg-primary text-white">
+              <th></th>
+              <th>Nama Customer</th>
+              <th>Email</th>
+              <th>No. Telp</th>
+              <th>Alamat</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-if="data.length > 0" v-for="row in data" class="text-center">
+              <td>
+                <!-- Edit -->
+                <Link :href="`/master/customer/edit/${row.id}`">
+                  <q-btn size="xs" color="positive" icon="fas fa-edit" round />
+                </Link>
+
+                <span class="q-mx-sm">
+                  |
+                </span>
+
+                <!-- Delete -->
+                <q-btn size="xs" color="negative" icon="fas fa-trash" round @click="onDelete(row.id)" />
+              </td>
+              <td>{{ row.nama_customer }}</td>
+              <td>{{ row.email || '-' }}</td>
+              <td>{{ row.no_telp || '-' }}</td>
+              <td>{{ row.alamat || '-' }}</td>
+            </tr>
+            <tr v-else class="text-center">
+              <td colspan="5">
+                No customers found.
+              </td>
+            </tr>
+          </tbody>
+        </q-markup-table>
+
+        <!-- Pagination -->
+        <div class="row q-mt-md">
+          <div class="col">
+            <span>Showing {{ pagination.from }} to {{ pagination.to }} of {{ pagination.total }}.</span>
+            <div class="float-right" v-if="pagination.last_page > 0">
+              <q-pagination
+                v-model="pagination.current_page"
+                :max="pagination.last_page"
+                :input="true"
+                size="sm"
+                @update:model-value="onSearch"
+              />
+            </div>
+          </div>
+        </div>
+
+      </q-card-section>
     </q-card>
-    
-    <!-- Data Table -->
-    <q-table
-      :rows="data"
-      :columns="columns"
-      row-key="id"
-      :pagination="tablePagination"
-      @request="onRequest"
-      :loading="loading"
-    >
-      <template v-slot:body-cell-actions="props">
-        <q-td :props="props">
-          <q-btn-group>
-            <q-btn 
-              size="sm" 
-              color="primary" 
-              icon="edit"
-              :to="{ name: 'customer.edit', params: { id: props.row.id } }"
-            />
-            <q-btn 
-              size="sm" 
-              color="negative" 
-              icon="delete"
-              @click="confirmDelete(props.row)"
-            />
-          </q-btn-group>
-        </q-td>
-      </template>
-    </q-table>
-    
-    <!-- Delete Confirmation Dialog -->
-    <q-dialog v-model="deleteDialog">
-      <q-card>
-        <q-card-section>
-          <div class="text-h6">Confirm Delete</div>
-        </q-card-section>
-        <q-card-section>
-          Are you sure you want to delete customer "{{ selectedCustomer?.nama_customer }}"?
-        </q-card-section>
-        <q-card-actions align="right">
-          <q-btn flat label="Cancel" @click="deleteDialog = false" />
-          <q-btn color="negative" label="Delete" @click="deleteCustomer" />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
   </q-page>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { router } from '@inertiajs/vue3'
+import { Link, router } from '@inertiajs/vue3';
+import { computed, ref } from 'vue';
+import { useQuasar } from 'quasar';
 
-interface CustomerData {
-  id: number
-  nama_customer: string
-  email?: string
-  no_telp?: string
-  alamat?: string
-  created_at: string
-  updated_at: string
-}
-
-interface Props {
-  data: CustomerData[]
-  pagination: {
-    current_page: number
-    per_page: number
-    total: number
-  }
-}
-
-const props = defineProps<Props>()
-
-const loading = ref(false)
-const deleteDialog = ref(false)
-const selectedCustomer = ref<CustomerData | null>(null)
-
-const searchForm = ref({
-  q: '',
-  page: 1,
-  per_page: 9
+const q = useQuasar();
+const search = ref('');
+const { pagination, data } = defineProps(['pagination', 'data']);
+const searchParam = computed(() => {
+  return { q: search.value, page: pagination.current_page, per_page: pagination.per_page }
 })
 
-const columns = [
-  { 
-    name: 'nama_customer', 
-    label: 'Customer Name', 
-    field: 'nama_customer', 
-    align: 'left' as const,
-    sortable: true
-  },
-  { 
-    name: 'email', 
-    label: 'Email', 
-    field: 'email', 
-    align: 'left' as const
-  },
-  { 
-    name: 'no_telp', 
-    label: 'Phone', 
-    field: 'no_telp', 
-    align: 'left' as const
-  },
-  { 
-    name: 'alamat', 
-    label: 'Address', 
-    field: 'alamat', 
-    align: 'left' as const
-  },
-  { 
-    name: 'actions', 
-    label: 'Actions', 
-    field: 'actions', 
-    align: 'center' as const
-  }
-]
+const onSearch = () => {
+  router.visit('/master/customer', { 
+    replace: true,
+    preserveScroll: true,
+    preserveState: true,
+    preserveUrl: true,
+    data: searchParam.value
+  });
+};
 
-const tablePagination = computed(() => ({
-  page: props.pagination.current_page,
-  rowsPerPage: props.pagination.per_page,
-  rowsNumber: props.pagination.total
-}))
-
-const search = () => {
-  loading.value = true
-  router.get('/master/customer', searchForm.value, {
-    onFinish: () => loading.value = false
-  })
-}
-
-const clearSearch = () => {
-  searchForm.value.q = ''
-  search()
-}
-
-const onRequest = (requestProp: any) => {
-  searchForm.value.page = requestProp.pagination.page
-  searchForm.value.per_page = requestProp.pagination.rowsPerPage
-  search()
-}
-
-const confirmDelete = (customer: CustomerData) => {
-  selectedCustomer.value = customer
-  deleteDialog.value = true
-}
-
-const deleteCustomer = () => {
-  if (selectedCustomer.value) {
-    router.delete(`/master/customer/${selectedCustomer.value.id}`, {
-      onSuccess: () => {
-        deleteDialog.value = false
-        selectedCustomer.value = null
-      }
-    })
-  }
+const onDelete = (id: Number) => {
+  q.dialog({
+    title: 'Confirm Deletion',
+    message: 'Are you sure you want to delete this customer?',
+    cancel: true
+  }).onOk(() => {
+    router.delete(`/master/customer/${id}`, {
+      preserveState: true,
+      preserveScroll: true,
+      replace: true,
+      data: searchParam.value,
+    });
+  });
 }
 </script>
