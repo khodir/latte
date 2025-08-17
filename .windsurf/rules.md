@@ -64,6 +64,7 @@ This is a Rails 8.0 application with Vue.js 3 + TypeScript frontend using Inerti
 - Follow mobile-first responsive design principles
 - Use semantic HTML elements
 - Maintain consistent spacing and typography
+- Use Font Awesome for Icons
 
 ### File Organization
 - Place Vue components in `app/frontend/components/`

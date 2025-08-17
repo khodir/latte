@@ -1,3 +1,4 @@
 admin:
   email: admin@example.com
   encrypted_password: <%= BCrypt::Password.create("password") %>
+  confirmed_at: <%= Time.current %>

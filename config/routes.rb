@@ -43,5 +43,15 @@ Rails.application.routes.draw do
       put "/:id", to: "item#update"
       delete "/:id", to: "item#destroy"
     end
+
+    # customer
+    scope "customer" do
+      get "/", to: "customer#show", as: :customer_show
+      get "/new", to: "customer#new", as: :customer_new
+      get "/edit/:id", to: "customer#edit", as: :customer_edit
+      post "/", to: "customer#create", as: :customer_create
+      put "/:id", to: "customer#update", as: :customer_update
+      delete "/:id", to: "customer#destroy", as: :customer_destroy
+    end
   end
 end

@@ -1,0 +1,35 @@
+john_doe:
+  nama_customer: "John Doe"
+  email: "john.doe@example.com"
+  no_telp: "081234567890"
+  alamat: "123 Main Street, Jakarta"
+  perusahaan: default
+  created_by: "admin@example.com"
+  updated_by: "admin@example.com"
+
+jane_smith:
+  nama_customer: "Jane Smith"
+  email: "jane.smith@example.com"
+  no_telp: "081987654321"
+  alamat: "456 Oak Avenue, Bandung"
+  perusahaan: default
+  created_by: "admin@example.com"
+  updated_by: "admin@example.com"
+
+bob_wilson:
+  nama_customer: "Bob Wilson"
+  email: "bob.wilson@example.com"
+  no_telp: "081555666777"
+  alamat: "789 Pine Road, Surabaya"
+  perusahaan: default
+  created_by: "user2@example.com"
+  updated_by: "user2@example.com"
+
+alice_brown:
+  nama_customer: "Alice Brown"
+  email: ""
+  no_telp: "081888999000"
+  alamat: "321 Elm Street, Medan"
+  perusahaan: default
+  created_by: "admin@example.com"
+  updated_by: "admin@example.com"

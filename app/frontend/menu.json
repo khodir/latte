@@ -16,6 +16,11 @@
                 "label": "Item",
                 "icon": "fas fa-box",
                 "link": "/master/item"
+            },
+            {
+                "label": "Customer",
+                "icon": "fas fa-user",
+                "link": "/master/customer"
             }
         ]
     },

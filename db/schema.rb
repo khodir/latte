@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_13_085751) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_17_163500) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_uca1400_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -49,6 +49,21 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_13_085751) do
     t.datetime "updated_at", null: false
     t.index ["perusahaan_id", "nama_category"], name: "index_category_on_perusahaan_id_and_nama_category", unique: true
     t.index ["perusahaan_id"], name: "index_category_on_perusahaan_id"
+  end
+
+  create_table "customers", charset: "utf8mb4", collation: "utf8mb4_uca1400_ai_ci", force: :cascade do |t|
+    t.bigint "perusahaan_id", null: false
+    t.string "nama_customer", null: false
+    t.string "email"
+    t.string "no_telp"
+    t.text "alamat"
+    t.string "created_by"
+    t.string "updated_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["perusahaan_id", "email"], name: "index_customers_on_perusahaan_id_and_email", unique: true
+    t.index ["perusahaan_id", "nama_customer"], name: "index_customers_on_perusahaan_id_and_nama_customer"
+    t.index ["perusahaan_id"], name: "index_customers_on_perusahaan_id"
   end
 
   create_table "item", charset: "utf8mb4", collation: "utf8mb4_uca1400_ai_ci", force: :cascade do |t|
@@ -261,6 +276,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_13_085751) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "category", "perusahaan"
+  add_foreign_key "customers", "perusahaan"
   add_foreign_key "item", "perusahaan"
   add_foreign_key "item_category", "category", on_delete: :cascade
   add_foreign_key "item_category", "item", on_delete: :cascade
