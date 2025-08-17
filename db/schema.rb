@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_17_212210) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_17_214027) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_uca1400_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -51,7 +51,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_17_212210) do
     t.index ["perusahaan_id"], name: "index_category_on_perusahaan_id"
   end
 
-  create_table "customers", charset: "utf8mb4", collation: "utf8mb4_uca1400_ai_ci", force: :cascade do |t|
+  create_table "customer", charset: "utf8mb4", collation: "utf8mb4_uca1400_ai_ci", force: :cascade do |t|
     t.bigint "perusahaan_id", null: false
     t.string "nama_customer", null: false
     t.string "email"
@@ -61,9 +61,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_17_212210) do
     t.string "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["perusahaan_id", "email"], name: "index_customers_on_perusahaan_id_and_email", unique: true
-    t.index ["perusahaan_id", "nama_customer"], name: "index_customers_on_perusahaan_id_and_nama_customer"
-    t.index ["perusahaan_id"], name: "index_customers_on_perusahaan_id"
+    t.index ["perusahaan_id", "email"], name: "index_customer_on_perusahaan_id_and_email", unique: true
+    t.index ["perusahaan_id", "nama_customer"], name: "index_customer_on_perusahaan_id_and_nama_customer"
+    t.index ["perusahaan_id"], name: "index_customer_on_perusahaan_id"
   end
 
   create_table "item", charset: "utf8mb4", collation: "utf8mb4_uca1400_ai_ci", force: :cascade do |t|
@@ -75,7 +75,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_17_212210) do
     t.string "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.decimal "price", precision: 10, scale: 2
+    t.decimal "price", precision: 24, scale: 2
     t.index ["nama_item"], name: "index_item_on_nama_item"
     t.index ["perusahaan_id", "kode_item"], name: "index_item_on_perusahaan_id_and_kode_item", unique: true
     t.index ["perusahaan_id"], name: "index_item_on_perusahaan_id"
@@ -107,7 +107,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_17_212210) do
   create_table "item_variation_value", charset: "utf8mb4", collation: "utf8mb4_uca1400_ai_ci", force: :cascade do |t|
     t.bigint "item_variation_id", null: false
     t.string "variation_value"
-    t.decimal "additional_price", precision: 10, scale: 2
+    t.decimal "additional_price", precision: 24, scale: 2
     t.string "created_by"
     t.string "updated_by"
     t.datetime "created_at", null: false
@@ -127,6 +127,41 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_17_212210) do
     t.datetime "updated_at", null: false
     t.index ["nama_perusahaan"], name: "index_perusahaan_on_nama_perusahaan"
     t.index ["user_id"], name: "index_perusahaan_on_user_id"
+  end
+
+  create_table "sales", charset: "utf8mb4", collation: "utf8mb4_uca1400_ai_ci", force: :cascade do |t|
+    t.bigint "perusahaan_id", null: false
+    t.bigint "customer_id"
+    t.string "nama_customer"
+    t.timestamp "sales_date"
+    t.string "status"
+    t.decimal "total", precision: 24, scale: 2
+    t.decimal "discount", precision: 24, scale: 2
+    t.decimal "ppn", precision: 24, scale: 2
+    t.string "created_by"
+    t.string "updated_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_sales_on_customer_id"
+    t.index ["nama_customer"], name: "index_sales_on_nama_customer"
+    t.index ["perusahaan_id"], name: "fk_rails_8fa007a493"
+    t.index ["sales_date"], name: "index_sales_on_sales_date"
+    t.index ["status"], name: "index_sales_on_status"
+  end
+
+  create_table "sales_item", charset: "utf8mb4", collation: "utf8mb4_uca1400_ai_ci", force: :cascade do |t|
+    t.bigint "sales_id", null: false
+    t.bigint "item_id", null: false
+    t.decimal "quantity", precision: 24, scale: 2
+    t.decimal "base_price", precision: 24, scale: 2
+    t.decimal "additional_price", precision: 24, scale: 2
+    t.decimal "total_price", precision: 24, scale: 2
+    t.string "created_by"
+    t.string "updated_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_id"], name: "index_sales_item_on_item_id"
+    t.index ["sales_id"], name: "index_sales_item_on_sales_id"
   end
 
   create_table "solid_cable_messages", charset: "utf8mb4", collation: "utf8mb4_uca1400_ai_ci", force: :cascade do |t|
@@ -300,13 +335,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_17_212210) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "category", "perusahaan"
-  add_foreign_key "customers", "perusahaan"
+  add_foreign_key "customer", "perusahaan"
   add_foreign_key "item", "perusahaan"
   add_foreign_key "item_category", "category", on_delete: :cascade
   add_foreign_key "item_category", "item", on_delete: :cascade
   add_foreign_key "item_variation", "item", on_delete: :cascade
   add_foreign_key "item_variation_value", "item_variation", on_delete: :cascade
   add_foreign_key "perusahaan", "users"
+  add_foreign_key "sales", "customer"
+  add_foreign_key "sales", "perusahaan"
+  add_foreign_key "sales_item", "item"
+  add_foreign_key "sales_item", "sales", column: "sales_id"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_failed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade

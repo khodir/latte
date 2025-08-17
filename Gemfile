@@ -63,6 +63,7 @@ group :development do
   gem "web-console"
 
   gem "sorbet"
+  gem "sorbet-runtime"
   gem "tapioca", require: false
 end
 
@@ -91,6 +92,3 @@ gem "prometheus_exporter", "~> 2.2"
 
 # authentication
 gem "devise", "~> 4.9"
-
-# sorbet
-gem "sorbet-runtime"
