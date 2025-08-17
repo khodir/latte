@@ -1,5 +1,3 @@
-# typed: true
-
 class CustomerController < ApplicationController
   # GET /master/customer
   def show

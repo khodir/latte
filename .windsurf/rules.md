@@ -8,14 +8,13 @@ This is a Rails 8.0 application with Vue.js 3 + TypeScript frontend using Inerti
 - **Frontend**: Vue.js 3, TypeScript, Inertia.js, Quasar, Tailwind CSS, Vite
 - **Testing**: RSpec, Capybara, Selenium WebDriver
 - **Deployment**: Kamal, Docker
-- **Type Safety**: Sorbet (Ruby), TypeScript (Frontend)
+- **Type Safety**: TypeScript (Frontend)
 - **Observability**: OpenTelemetry, Prometheus
 
 ## Ruby/Rails Guidelines
 
 ### Code Style & Structure
 - Follow Rails conventions and the principle of "Convention over Configuration"
-- Use Sorbet type annotations (`# typed: true`) at the top of all Ruby files
 - Prefer explicit over implicit - use clear method names and variable names
 - Use strong parameters for all controller actions
 - Implement proper error handling with transactions for data consistency
@@ -200,7 +199,6 @@ This is a Rails 8.0 application with Vue.js 3 + TypeScript frontend using Inerti
 - Document deployment and setup procedures
 
 ### Type Annotations
-- Use Sorbet type annotations in Ruby files
 - Implement comprehensive TypeScript types
 - Document complex type definitions
 - Use JSDoc comments for JavaScript/TypeScript functions
@@ -232,7 +230,7 @@ This is a Rails 8.0 application with Vue.js 3 + TypeScript frontend using Inerti
 3. **Unsafe Parameters**: Always use strong parameters
 4. **Missing Transactions**: Use transactions for multi-step operations
 5. **Inconsistent Naming**: Follow Rails and Vue.js conventions
-6. **Missing Type Annotations**: Use Sorbet and TypeScript consistently
+6. **Missing Type Annotations**: Use TypeScript consistently
 7. **Poor Error Handling**: Implement comprehensive error handling
 8. **Security Vulnerabilities**: Follow security best practices
 9. **Performance Issues**: Monitor and optimize database queries
@@ -240,7 +238,7 @@ This is a Rails 8.0 application with Vue.js 3 + TypeScript frontend using Inerti
 
 ## Code Review Checklist
 
-- [ ] Proper type annotations (Sorbet/TypeScript)
+- [ ] Proper type annotations (TypeScript)
 - [ ] Strong parameters used in controllers
 - [ ] Proper validations in models
 - [ ] Transactions used for multi-step operations

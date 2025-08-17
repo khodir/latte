@@ -1,5 +1,3 @@
-# typed: true
-
 class ItemController < ApplicationController
   # GET /master/item
   def show

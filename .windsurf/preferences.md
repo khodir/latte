@@ -3,7 +3,6 @@
 ## Code Generation Preferences
 
 ### Ruby/Rails Code Style
-- Use Sorbet type annotations (`# typed: true`) at the top of all files
 - Prefer explicit method names over abbreviated ones
 - Use Rails conventions and idioms consistently
 - Implement proper error handling with meaningful messages

@@ -4,7 +4,6 @@
 
 ### Standard Model Template
 ```ruby
-# typed: true
 
 class ModelName < ApplicationRecord
   self.table_name = "table_name" if needed
@@ -34,7 +33,6 @@ end
 
 ### Join Table Model Pattern
 ```ruby
-# typed: true
 
 class JoinTableName < ApplicationRecord
   belongs_to :first_model
@@ -48,7 +46,6 @@ end
 
 ### Standard CRUD Controller Template
 ```ruby
-# typed: true
 
 class ModelController < ApplicationController
   # GET /path

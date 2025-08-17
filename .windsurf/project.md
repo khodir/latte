@@ -15,7 +15,6 @@
 - **Database**: MariaDB with Trilogy adapter
 - **Authentication**: Devise
 - **Authorization**: Custom tenant-based authorization
-- **Type Safety**: Sorbet
 - **Testing**: RSpec, Capybara
 - **Deployment**: Kamal + Docker
 - **Monitoring**: OpenTelemetry, Prometheus

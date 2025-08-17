@@ -8,7 +8,7 @@
     "frontend": "vue3-typescript",
     "architecture": "multi-tenant",
     "tech_stack": {
-      "backend": "Ruby on Rails 8.0.2, MariaDB (Trilogy), Devise, Sorbet",
+      "backend": "Ruby on Rails 8.0.2, MariaDB (Trilogy), Devise",
       "frontend": "Vue.js 3, TypeScript, Inertia.js, Quasar, Tailwind CSS, Vite",
       "testing": "RSpec, Capybara, Selenium WebDriver",
       "deployment": "Kamal, Docker",
@@ -26,7 +26,6 @@
     "multi_tenancy": "All data scoped by perusahaan_id with by_perusahaan scopes",
     "key_models": ["Perusahaan", "Item", "Category", "ItemCategory", "User", "Customer"],
     "primary_patterns": [
-      "Use Sorbet type annotations (# typed: true)",
       "Scope all queries with by_perusahaan",
       "Use Inertia.js for frontend rendering",
       "Implement proper validations and transactions",
@@ -91,8 +90,8 @@
     }
   },
   "templates": {
-    "model": "# typed: true\n\nclass {{ModelName}} < ApplicationRecord\n  belongs_to :perusahaan\n  scope :by_perusahaan, ->(perusahaan_id) { where(perusahaan_id: perusahaan_id) }\n  validates_presence_of :{{required_field}}\n  \n  def as_json(options = {})\n    super(options)\n  end\nend",
-    "controller": "# typed: true\n\nclass {{ModelName}}Controller < ApplicationController\n  def show\n    @data = {{ModelName}}.by_perusahaan(@current_perusahaan.id)\n    render inertia: \"{{path}}/show\", props: { data: @data }\n  end\n  \n  private\n  \n  def {{model_name}}_params\n    params.permit(:field1, :field2)\n  end\nend",
+    "model": "class {{ModelName}} < ApplicationRecord\n  belongs_to :perusahaan\n  scope :by_perusahaan, ->(perusahaan_id) { where(perusahaan_id: perusahaan_id) }\n  validates_presence_of :{{required_field}}\n  \n  def as_json(options = {})\n    super(options)\n  end\nend",
+    "controller": "class {{ModelName}}Controller < ApplicationController\n  def show\n    @data = {{ModelName}}.by_perusahaan(@current_perusahaan.id)\n    render inertia: \"{{path}}/show\", props: { data: @data }\n  end\n  \n  private\n  \n  def {{model_name}}_params\n    params.permit(:field1, :field2)\n  end\nend",
     "vue_component": "<template>\n  <q-page padding>\n    <h4>{{ComponentName}}</h4>\n  </q-page>\n</template>\n\n<script setup lang=\"ts\">\ninterface Props {\n  data: any[]\n}\n\nconst props = defineProps<Props>()\n</script>",
     "migration": "class Create{{ModelName}} < ActiveRecord::Migration[8.0]\n  def change\n    create_table :{{table_name}} do |t|\n      t.references :perusahaan, null: false, foreign_key: true\n      t.string :{{field_name}}, null: false\n      t.string :created_by\n      t.timestamps\n    end\n    \n    add_index :{{table_name}}, [:perusahaan_id, :{{field_name}}], unique: true\n  end\nend",
     "rspec_model": "require 'rails_helper'\n\nRSpec.describe {{ModelName}}, type: :model do\n  let(:user) { create(:user) }\n  let(:perusahaan) { create(:perusahaan, user: user) }\n  \n  describe 'associations' do\n    it { should belong_to(:perusahaan) }\n  end\n  \n  describe 'validations' do\n    subject { build(:{{model_name}}, perusahaan: perusahaan) }\n    it { should validate_presence_of(:{{field_name}}) }\n  end\n  \n  describe 'scopes' do\n    describe '.by_perusahaan' do\n      it 'returns {{model_name}}s for specific perusahaan' do\n        {{model_name}} = create(:{{model_name}}, perusahaan: perusahaan)\n        result = {{ModelName}}.by_perusahaan(perusahaan.id)\n        expect(result).to include({{model_name}})\n      end\n    end\n  end\nend",

@@ -9,7 +9,6 @@ A modern multi-tenant point of sales system built with Rails 8.0 and Vue.js 3.
 - **Framework**: Ruby on Rails 8.0.2
 - **Database**: MariaDB with Trilogy adapter
 - **Authentication**: Devise
-- **Type Safety**: Sorbet with runtime checks
 - **Deployment**: Kamal with Docker
 - **Observability**: OpenTelemetry + Prometheus
 - **Caching**: Solid Cache, Solid Queue, Solid Cable
