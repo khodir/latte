@@ -1,7 +1,5 @@
 # typed: true
 
-require 'sorbet-runtime'
-
 class Customer < ApplicationRecord
   extend T::Sig
 
