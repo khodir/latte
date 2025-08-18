@@ -13,7 +13,9 @@
           </div>
         </div>
       </q-card-section>
-      <q-separator/>
+    </q-card>
+
+    <q-card class="q-mt-md">
       <q-card-section>
         <q-form ref="itemFrm" @submit.prevent="onSubmit">
           <input type="submit" hidden />
@@ -30,7 +32,7 @@
           <div class="row q-col-gutter-sm">
             <!-- ID -->
             <div class="col-12 col-sm-6">
-              <q-input label="ID" readonly v-model="frm.id" :error="!!frm.errors.id" :error-message="frm.errors.id">
+              <q-input filled label="ID" readonly v-model="frm.id" :error="!!frm.errors.id" :error-message="frm.errors.id">
                 <template v-slot:prepend>
                   <q-icon name="fas fa-list-ol" />
                 </template>
@@ -38,7 +40,7 @@
             </div>
             <!-- Kode Item -->
             <div class="col-12 col-sm-6">
-              <q-input label="Kode Item" v-model="frm.kode_item" :error="!!frm.errors.kode_item" :error-message="frm.errors.kode_item">
+              <q-input filled label="Kode Item" v-model="frm.kode_item" :error="!!frm.errors.kode_item" :error-message="frm.errors.kode_item">
                 <template v-slot:prepend>
                   <q-icon name="fas fa-list-ul" />
                 </template>
@@ -49,7 +51,7 @@
           <div class="row q-col-gutter-sm">
             <!-- Nama Item -->
             <div class="col-12 col-sm-6">
-              <q-input label="Nama Item" v-model="frm.nama_item" :error="!!frm.errors.nama_item" :error-message="frm.errors.nama_item">
+              <q-input filled label="Nama Item" v-model="frm.nama_item" :error="!!frm.errors.nama_item" :error-message="frm.errors.nama_item">
                 <template v-slot:prepend>
                   <q-icon name="fas fa-box" />
                 </template>
@@ -58,6 +60,7 @@
             <!-- Category -->
             <div class="col-12 col-sm-6">
               <q-select
+                filled
                 label="Kategori"
                 v-model="frm.category"
                 :options="listCategory"
@@ -83,7 +86,7 @@
           <div class="row q-col-gutter-sm">
             <!-- Keterangan -->
             <div class="col-12 col-sm-6">
-              <q-input type="textarea" label="Keterangan" v-model="frm.keterangan" :error="!!frm.errors.keterangan" :error-message="frm.errors.keterangan">
+              <q-input filled rows="3" type="textarea" label="Keterangan" v-model="frm.keterangan" :error="!!frm.errors.keterangan" :error-message="frm.errors.keterangan">
                 <template v-slot:prepend>
                   <q-icon name="fas fa-info-circle" />
                 </template>

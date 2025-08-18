@@ -61,7 +61,7 @@ class CategoryController < ApplicationController
 
   private
   def search_param
-    params.permit(:q)
+    params.permit(:q, :page, :per_page)
   end
 
   def category_params

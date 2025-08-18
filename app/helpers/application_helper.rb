@@ -44,9 +44,9 @@ module ApplicationHelper
   end
 
   # pagination
-  def paginate(total)
-    c_page = params[:page].nil? ? 1 : params[:page].to_i
-    per_page = params[:per_page].nil? ? 10 : params[:per_page].to_i
+  def paginate(total, p: params)
+    c_page = p[:page].nil? ? 1 : p[:page].to_i
+    per_page = p[:per_page].nil? ? 10 : p[:per_page].to_i
 
     last_page = (total.to_f / per_page.to_f).ceil
     last_page = 1 if last_page == 0

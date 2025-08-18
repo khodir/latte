@@ -1,7 +1,8 @@
 <template>
   <q-page class="q-pa-md">
+    <!-- Page Header -->
     <q-card>
-      <!-- Headers -->
+      <!-- Header -->
       <q-card-section>
         <div class="row items-center">
           <div class="col">
@@ -9,19 +10,20 @@
             <span class="text-subtitle1">Item</span>
           </div>
           <div class="col-auto">
+            <!-- Add New -->
             <Link href="/master/item/new">
               <q-btn icon="fas fa-plus" color="primary" />
             </Link>
           </div>
         </div>
       </q-card-section>
-      <q-separator />
-      <!-- Body -->
+      <q-separator/>
+      <!-- Search -->
       <q-card-section>
-        <!-- Search -->
-        <div class="row q-col-gutter-md">
-          <div class="col-12 col-sm-8">
+        <div class="row q-col-gutter-sm">
+          <div class="col-12 col-sm-6">
             <q-input
+              filled
               v-model="search"
               debounce="300"
               placeholder="Search Here..."
@@ -33,133 +35,139 @@
               </template>
             </q-input>
           </div>
-          <div class="col-12 col-sm-4">
+          <div class="col-12 col-sm-6">
             <q-select
-                label="Kategori"
-                v-model="cat"
-                :options="listCategory"
-                option-label="nama_category"
-                option-value="id"
-                emit-value map-options
-                multiple use-input use-chips @filter="filterCategory"
-                clearable
-              >
-                <template v-slot:prepend>
-                  <q-icon name="fas fa-tags"></q-icon>
-                </template>
-                <template v-slot:selected-item="scope">
-                  <q-chip removable @remove="scope.removeAtIndex(scope.index)" 
-                  :tabindex="scope.tabindex" dense color="secondary" text-color="white" size="sm"
-                  class="q-ma-none">
-                    {{ scope.opt.nama_category }}
-                  </q-chip>
-                </template>
-              </q-select>
+              filled
+              label="Kategori"
+              v-model="cat"
+              :options="listCategory"
+              option-label="nama_category"
+              option-value="id"
+              emit-value map-options
+              multiple use-input use-chips @filter="filterCategory"
+              clearable
+            >
+              <template v-slot:prepend>
+                <q-icon name="fas fa-tags"></q-icon>
+              </template>
+              <template v-slot:selected-item="scope">
+                <q-chip removable @remove="scope.removeAtIndex(scope.index)" 
+                :tabindex="scope.tabindex" dense color="secondary" text-color="white" size="sm"
+                class="q-ma-none">
+                  {{ scope.opt.nama_category }}
+                </q-chip>
+              </template>
+            </q-select>
           </div>
         </div>
-
-        <div class="row q-mb-md">
+        <div class="row q-mt-sm">
           <div class="col-12">
-            <q-toggle v-model="showAsTable" label="Table View" class="q-ml-md" />
+            <q-toggle v-model="showAsTable" label="Table View" />
           </div>
         </div>
-        
-        <!-- Table -->
-        <q-markup-table v-if="showAsTable" flat separator="cell" bordered>
-          <thead>
-            <tr class="text-body1 tw-font-semibold bg-primary text-white">
-              <th></th>
-              <th>Kode Item</th>
-              <th>Nama Item</th>
-              <th>Kategori</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-if="data.length > 0" v-for="row in data" class="text-center">
-              <td>
-                <!-- Edit -->
-                <Link :href="`/master/item/edit/${row.id}`">
-                  <q-btn size="xs" color="positive" icon="fas fa-edit" round />
-                </Link>
+      </q-card-section>
+    </q-card>
 
-                <span class="q-mx-sm">
-                  |
-                </span>
+    <!-- Page Data -->
+    <q-markup-table v-if="showAsTable" class="q-mt-md" separator="cell">
+      <thead>
+        <tr class="text-body1 tw-font-semibold bg-primary text-white">
+          <th></th>
+          <th>Kode Item</th>
+          <th>Nama Item</th>
+          <th>Kategori</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-if="data.length > 0" v-for="row in data" class="text-center">
+          <td>
+            <!-- Edit -->
+            <Link :href="`/master/item/edit/${row.id}`">
+              <q-btn size="xs" color="positive" icon="fas fa-edit" round />
+            </Link>
 
-                <!-- Delete -->
-                <q-btn size="xs" color="negative" icon="fas fa-trash" round @click="onDelete(row.id)" />
-              </td>
-              <td>{{ row.kode_item }}</td>
-              <td>{{ row.nama_item }}</td>
-              <td>
-                {{ row.category.map((c: any) => c.nama_category).join(', ') }}
-              </td>
-            </tr>
-            <tr v-else class="text-center">
-              <td colspan="4">
-                No categories found.
-              </td>
-            </tr>
-          </tbody>
-        </q-markup-table>
+            <span class="q-mx-sm">
+              |
+            </span>
 
-        <div v-else class="row q-col-gutter-md">
-          <div class="col-12 col-sm-6 col-md-4" v-for="row in data" :key="row.id">
-            <q-card flat bordered v-ripple>
-              <!-- Media -->
-              <Link :href="`/master/item/edit/${row.id}`">
-                <q-img :src="row.image_url" width="100%" :ratio="16/9"></q-img>
-              </Link>
-              <!-- Data -->
-              <q-card-section class="q-pt-sm">
-                <!-- Nama Item and Kode Item -->
-                <div class="text-subtitle1">
-                  <span class="tw-font-semibold">{{ row.nama_item }}</span>
-                  <span class="text-caption q-ml-sm text-italic">{{ row.kode_item }}</span>
-                </div>
-                <!-- Categories -->
-                <div>
-                  <q-chip v-for="cat in row.category" size="sm" color="primary" text-color="white">
-                    {{ cat.nama_category }}
-                  </q-chip>
-                </div>
+            <!-- Delete -->
+            <q-btn size="xs" color="negative" icon="fas fa-trash" round @click="onDelete(row.id)" />
+          </td>
+          <td>{{ row.kode_item }}</td>
+          <td>{{ row.nama_item }}</td>
+          <td>
+            {{ row.category.map((c: any) => c.nama_category).join(', ') }}
+          </td>
+        </tr>
+        <tr v-else class="text-center">
+          <td colspan="4">
+            No items found.
+          </td>
+        </tr>
+      </tbody>
+    </q-markup-table>
 
-                <!-- Description -->
-                <q-separator class="q-my-sm" />
-                {{ row.keterangan }}
-
-                <!-- Action -->
-                <div class="row q-pt-sm">
-                  <div class="col">
-                    <div class="float-right">
-                      <Link :href="`/master/item/edit/${row.id}`" class="q-mr-sm">
-                        <q-btn icon="fas fa-edit" color="primary" outline/>
-                      </Link>
-                      <q-btn @click="onDelete(row.id)" icon="fas fa-trash" color="negative" outline/>
-                    </div>
-                  </div>
-                </div>
-              </q-card-section>
-            </q-card>
-          </div>
-        </div>
-
-        <!-- Pagination -->
-        <div class="row q-mt-md">
-          <div class="col">
-            <span>Showing {{ pagination.from }} to {{ pagination.to }} of {{ pagination.total }}.</span>
-            <div class="float-right" v-if="pagination.last_page > 0">
-              <q-pagination
-                v-model="pagination.current_page"
-                :max="pagination.last_page"
-                :input="true"
-                size="sm"
-                @update:model-value="onSearch"
-              />
+    <!-- Card View -->
+    <div v-else class="row q-col-gutter-md q-mt-md">
+      <div class="col-12 col-sm-6 col-md-3" v-for="row in data" :key="row.id">
+        <q-card v-ripple>
+          <!-- Media -->
+          <Link :href="`/master/item/edit/${row.id}`">
+            <q-img :src="row.image_url" width="100%" :ratio="16/9"></q-img>
+          </Link>
+          <!-- Data -->
+          <q-card-section class="q-pt-sm">
+            <!-- Nama Item and Kode Item -->
+            <div class="text-subtitle1">
+              <span class="tw-font-semibold">{{ row.nama_item }}</span>
+              <span class="text-caption q-ml-sm text-italic">{{ row.kode_item }}</span>
             </div>
+            <!-- Categories -->
+            <div>
+              <q-chip v-for="cat in row.category" size="sm" color="primary" text-color="white">
+                {{ cat.nama_category }}
+              </q-chip>
+            </div>
+
+            <!-- Description -->
+            <q-separator class="q-my-sm" />
+            {{ row.keterangan }}
+
+            <!-- Action -->
+            <div class="row q-pt-sm">
+              <div class="col">
+                <div class="float-right">
+                  <Link :href="`/master/item/edit/${row.id}`" class="q-mr-sm">
+                    <q-btn icon="fas fa-edit" color="primary" outline/>
+                  </Link>
+                  <q-btn @click="onDelete(row.id)" icon="fas fa-trash" color="negative" outline/>
+                </div>
+              </div>
+            </div>
+          </q-card-section>
+        </q-card>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <q-card class="q-mt-md">
+      <q-card-section>
+        <div class="row items-center">
+          <div class="col">
+            <span class="text-caption1">
+              Showing {{ pagination.from }} to {{ pagination.to }} of {{ pagination.total }}.
+            </span>
+          </div>
+          <div class="col-auto">
+            <q-pagination
+              v-model="pagination.current_page"
+              :max="pagination.last_page"
+              :input="true"
+              size="sm"
+              @update:model-value="onSearch"
+            />
           </div>
         </div>
-
       </q-card-section>
     </q-card>
   </q-page>

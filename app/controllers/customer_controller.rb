@@ -1,7 +1,6 @@
 class CustomerController < ApplicationController
   # GET /master/customer
   def show
-    search_param[:per_page] ||= 9
     @data = Customer.by_perusahaan(@current_perusahaan.id)
     @data = @data.where("nama_customer LIKE :q OR email LIKE :q OR no_telp LIKE :q", { q: "%#{search_param[:q]}%" }) if search_param[:q].present?
 

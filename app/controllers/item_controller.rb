@@ -1,17 +1,19 @@
 class ItemController < ApplicationController
   # GET /master/item
   def show
-    search_param[:per_page] ||= 9
+    p = search_param
+    p[:per_page] ||= 12
+
     @categories = Category.by_perusahaan(@current_perusahaan.id)
     @data = Item.includes(:category, :image_attachment).by_perusahaan(@current_perusahaan.id)
-    @data = @data.where("kode_item LIKE :q OR nama_item LIKE :q", { q: "%#{search_param[:q]}%" }) if search_param[:q].present?
-    if search_param[:c].present? && search_param[:c].is_a?(Array)
-      @ids = @data.joins(:category).where(category: { id: search_param[:c] }).pluck(:id)
+    @data = @data.where("kode_item LIKE :q OR nama_item LIKE :q", { q: "%#{p[:q]}%" }) if p[:q].present?
+    if p[:c].present? && p[:c].is_a?(Array)
+      @ids = @data.joins(:category).where(category: { id: p[:c] }).pluck(:id)
       @data = @data.where(id: @ids)
     end
 
     total = @data.count
-    @pagination = paginate(total)
+    @pagination = paginate(total, p: p)
     @data = @data.order(kode_item: :asc).limit(@pagination[:per_page]).offset(@pagination[:skip])
 
     render inertia: "master/item/show", props: {
