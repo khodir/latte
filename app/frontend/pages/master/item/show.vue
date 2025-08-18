@@ -111,7 +111,7 @@
     <div v-else>
       <div class="row q-col-gutter-md q-mt-md" v-for="rows in chunk(data, cardRowSize)">
         <div class="col-12 col-sm-6 col-md-3" v-for="row in (rows as any)" :key="row.id">
-          <q-card v-ripple style="width: 100%;">
+          <q-card v-ripple>
             <!-- Media -->
             <Link :href="`/master/item/edit/${row.id}`">
               <q-img :src="row.image_url" width="100%" :ratio="16/9"></q-img>
