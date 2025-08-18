@@ -116,6 +116,7 @@
             <Link :href="`/master/item/edit/${(rows[idx - 1] as any).id}`">
               <q-img :src="(rows[idx - 1] as any).image_url" width="100%" :ratio="16/9"></q-img>
             </Link>
+            
             <!-- Data -->
             <q-card-section class="q-pt-sm">
               <!-- Nama Item and Kode Item -->
@@ -125,11 +126,17 @@
               <div class="text-caption text-italic tw-overflow-x-hidden tw-whitespace-nowrap tw-truncate">
                 {{ (rows[idx - 1] as any).kode_item }}
               </div>
+
               <!-- Categories -->
               <div class="tw-overflow-x-hidden tw-whitespace-nowrap tw-truncate">
-                <q-chip v-for="cat in (rows[idx - 1] as any).category" :key="cat.id" size="sm" color="primary" text-color="white">
+                <q-chip v-if="(rows[idx - 1] as any).category.length > 0" v-for="cat in (rows[idx - 1] as any).category" :key="cat.id" size="sm" color="primary" text-color="white">
                   {{ cat.nama_category }}
                 </q-chip>
+                <span v-else>
+                  <q-chip size="sm" color="primary" text-color="white">
+                    -
+                  </q-chip>
+                </span>
               </div>  
 
               <!-- Description -->
