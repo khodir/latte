@@ -109,43 +109,43 @@
 
     <!-- Card View -->
     <div v-else>
-      <div class="row q-col-gutter-md q-mt-md" v-for="rows in chunk(data, cardRowSize)">
-        <div class="col-12 col-sm-6 col-md-3" v-for="row in (rows as any)" :key="row.id">
-          <q-card v-ripple>
+      <div class="row q-col-gutter-sm q-mt-md" v-for="rows in chunk(data, cardRowSize)">
+        <div class="col" v-for="idx in cardRowSize" :key="idx">
+          <q-card v-ripple v-if="!!rows[idx - 1]">
             <!-- Media -->
-            <Link :href="`/master/item/edit/${row.id}`">
-              <q-img :src="row.image_url" width="100%" :ratio="16/9"></q-img>
+            <Link :href="`/master/item/edit/${(rows[idx - 1] as any).id}`">
+              <q-img :src="(rows[idx - 1] as any).image_url" width="100%" :ratio="16/9"></q-img>
             </Link>
             <!-- Data -->
             <q-card-section class="q-pt-sm">
               <!-- Nama Item and Kode Item -->
               <div class="text-subtitle1 tw-overflow-x-hidden tw-whitespace-nowrap tw-truncate">
-                <span class="tw-font-semibold">{{ row.nama_item }}</span>
+                <span class="tw-font-semibold">{{ (rows[idx - 1] as any).nama_item }}</span>
               </div>
               <div class="text-caption text-italic tw-overflow-x-hidden tw-whitespace-nowrap tw-truncate">
-                {{ row.kode_item }}
+                {{ (rows[idx - 1] as any).kode_item }}
               </div>
               <!-- Categories -->
               <div class="tw-overflow-x-hidden tw-whitespace-nowrap tw-truncate">
-                <q-chip v-for="cat in row.category" size="sm" color="primary" text-color="white">
+                <q-chip v-for="cat in (rows[idx - 1] as any).category" :key="cat.id" size="sm" color="primary" text-color="white">
                   {{ cat.nama_category }}
                 </q-chip>
-              </div>
+              </div>  
 
               <!-- Description -->
               <q-separator class="q-my-sm" />
               <div class="tw-overflow-x-hidden tw-whitespace-nowrap tw-truncate">
-                {{ row.keterangan || '-' }}
+                {{ (rows[idx - 1] as any).keterangan || '-' }}
               </div>
 
               <!-- Action -->
               <div class="row q-pt-sm">
                 <div class="col">
                   <div class="float-right">
-                    <Link :href="`/master/item/edit/${row.id}`" class="q-mr-sm">
+                    <Link :href="`/master/item/edit/${(rows[idx - 1] as any).id}`" class="q-mr-sm">
                       <q-btn icon="fas fa-edit" color="primary" outline/>
                     </Link>
-                    <q-btn @click="onDelete(row.id)" icon="fas fa-trash" color="negative" outline/>
+                    <q-btn @click="onDelete((rows[idx - 1] as any).id)" icon="fas fa-trash" color="negative" outline/>
                   </div>
                 </div>
               </div>
@@ -187,7 +187,7 @@ import { chunk } from 'lodash';
 
 const q = useQuasar();
 const cardRowSize = computed(() => {
-  return q.screen.lt.sm ? 1 : q.screen.lt.md ? 2 : 4;
+  return q.screen.lt.sm ? 1 : q.screen.lt.md ? 3 : 5;
 });
 
 const { pagination, categories, data } = defineProps(['pagination', 'categories', 'data']);
