@@ -23,7 +23,7 @@
           <div class="row q-col-gutter-sm">
             <!-- ID -->
             <div class="col-12 col-sm-6">
-              <q-input filled label="ID" readonly v-model="frm.id" :error="!!frm.errors.id" :error-message="frm.errors.id">
+              <q-input label="ID" readonly v-model="frm.id" :error="!!frm.errors.id" :error-message="frm.errors.id">
                 <template v-slot:prepend>
                   <q-icon name="fas fa-list-ol" />
                 </template>
@@ -31,7 +31,7 @@
             </div>
             <!-- Nama Category -->
             <div class="col-12 col-sm-6">
-              <q-input filled label="Nama Category" v-model="frm.nama_category" :error="!!frm.errors.nama_category" :error-message="frm.errors.nama_category">
+              <q-input label="Nama Category" v-model="frm.nama_category" :error="!!frm.errors.nama_category" :error-message="frm.errors.nama_category">
                 <template v-slot:prepend>
                   <q-icon name="fas fa-tags" />
                 </template>
@@ -42,7 +42,7 @@
           <div class="row q-col-gutter-sm">
             <!-- Keterangan -->
             <div class="col-12 col-sm-6">
-              <q-input filled rows="3" type="textarea" label="Keterangan" v-model="frm.keterangan" :error="!!frm.errors.keterangan" :error-message="frm.errors.keterangan">
+              <q-input rows="3" type="textarea" label="Keterangan" v-model="frm.keterangan" :error="!!frm.errors.keterangan" :error-message="frm.errors.keterangan">
                 <template v-slot:prepend>
                   <q-icon name="fas fa-info-circle" />
                 </template>

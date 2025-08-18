@@ -23,7 +23,6 @@
         <div class="row q-col-gutter-sm">
           <div class="col-12 col-sm-6">
             <q-input
-              filled
               v-model="search"
               debounce="300"
               placeholder="Search Here..."
