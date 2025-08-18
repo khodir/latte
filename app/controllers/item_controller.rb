@@ -35,7 +35,7 @@ class ItemController < ApplicationController
     @data = Item.includes(:category, :image_attachment).by_perusahaan(@current_perusahaan.id).find_by!(id: params[:id])
     render inertia: "master/item/edit", props: {
       categories: @categories,
-      data: @data.as_json(include: [ :category ])
+      data: @data.as_json(include: [ :category, :item_category ])
     }
   end
 
@@ -49,12 +49,9 @@ class ItemController < ApplicationController
       @data.created_by = @current_user.email
       @data.save!
 
-      # create item categories
-      if item_category_params[:category].present?
-        item_category_params[:category].each_value do |c|
-          ItemCategory.create!(item_id: @data.id, category_id: c[:id], created_by: @current_user.email)
-        end
-      end
+      # item categories
+      @data.assign_attributes(item_category_params)
+      @data.save!
 
       # item image
       if image_params[:image].present?
@@ -75,22 +72,9 @@ class ItemController < ApplicationController
     ApplicationRecord.transaction do
       # update item
       @data = Item.includes(:item_category, :image_attachment).by_perusahaan(@current_perusahaan.id).find_by!(id: params[:id])
-      @data.assign_attributes(item_params)
+      @data.assign_attributes(item_params.merge(item_category_params))
       @data.updated_by = @current_user.email
       @data.save!
-
-      # update category ids
-      if item_category_params[:category].present?
-        @ids = []
-        item_category_params[:category].each_value { |v| @ids << v[:id] }
-        @data.item_category.where.not(category_id: @ids).destroy_all
-
-        @ids.each do |id|
-          ItemCategory.find_or_create_by!(item_id: @data.id, category_id: id) do |ic|
-            ic.created_by = @current_user.email
-          end
-        end
-      end
 
       # delete image
       if image_params[:delete_image].present? && image_params[:delete_image] == "1"
@@ -134,6 +118,20 @@ class ItemController < ApplicationController
   end
 
   def item_category_params
-    params.permit(category: [ :id ])
+    params.permit(item_category_attributes: [ :id, :category_id, :_destroy ])
+  end
+
+  def item_variation_params
+    params.permit(
+      variation: [
+        :id,
+        :variation_name,
+        variation_value: [
+          :id,
+          :variation_value,
+          :additional_price
+        ]
+      ]
+    )
   end
 end

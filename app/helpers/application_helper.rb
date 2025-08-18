@@ -7,6 +7,8 @@ module ApplicationHelper
 
   # Handle Model Errors
   def handle_validation_errors(e)
+    raise e if Rails.env.test?
+
     if e.is_a?(ActiveModel::ValidationError)
       messages = format_validation_errors(e.model.errors)
       redirect_back fallback_location: root_path, inertia: { errors: messages }

@@ -4,9 +4,13 @@ class Item < ApplicationRecord
   belongs_to :perusahaan
   has_many :item_category
   has_many :category, through: :item_category
+  has_many :item_variation
   has_one_attached :image
 
   scope :by_perusahaan, ->(perusahaan_id) { where(perusahaan_id: perusahaan_id) }
+
+  accepts_nested_attributes_for :item_category, allow_destroy: true
+  accepts_nested_attributes_for :item_variation, allow_destroy: true
 
   attribute :price, :decimal, default: 0
 

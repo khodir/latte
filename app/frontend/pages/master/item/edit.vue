@@ -15,7 +15,7 @@
       </q-card-section>
       <q-separator/>
       <q-card-section>
-        <q-form ref="itemFrm" @submit.prevent="frm.put(`/master/item/${data.id}`, { forceFormData: true })">
+        <q-form ref="itemFrm" @submit.prevent="onSubmit">
           <input type="submit" hidden />
           <!-- Upload Image -->
           <div class="tw-flex tw-justify-center tw-items-center tw-mb-4">
@@ -116,6 +116,27 @@ const frm = useForm({
   image: null,
   delete_image: false as boolean
 })
+
+const onSubmit = () => {
+  frm.transform(d => {
+    return {
+      ...d,
+      item_category_attributes: [
+        ...d.category.map((v: any) => { 
+          return {
+            category_id: v.id,
+            id: data.item_category.filter((ic: any) => ic.category_id === v.id).length > 0 ?
+              data.item_category.filter((ic: any) => ic.category_id === v.id)[0].id :
+              null
+          }
+        }),
+        ...data.item_category.filter((ic: any) => d.category.filter((v: any) => v.id === ic.category_id).length <= 0)
+          .map((ic: any) => ({ id: ic.id, category_id: ic.category_id, _destroy: 1 }))
+      ]
+    }
+  })
+  .put(`/master/item/${data.id}`, { forceFormData: true })
+}
 
 // filter category
 const allCategory = ref(categories);

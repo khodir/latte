@@ -56,10 +56,10 @@ RSpec.describe "Items", type: :request do
         nama_item: "Test Item",
         keterangan: "Test description",
         image: image_file,
-        category: {
-          "0": { id: categories(:makanan).id },
-          "1": { id: categories(:minuman).id }
-        }
+        item_category_attributes: [
+          { category_id: categories(:makanan).id },
+          { category_id: categories(:minuman).id }
+        ]
       }
 
       expect {
@@ -89,9 +89,9 @@ RSpec.describe "Items", type: :request do
         nama_item: "Updated Test Item",
         image: image_file,
         delete_image: 1,
-        category: {
-          "0": { id: categories(:minuman).id }
-        }
+        item_category_attributes: [
+          { category_id: categories(:minuman).id }
+        ]
       }
 
       put url_for(controller: :item, action: :update, id: items(:cappuccino).id), params: update_params
