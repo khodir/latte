@@ -10,6 +10,7 @@ class ItemController < ApplicationController
     if p[:c].present? && p[:c].is_a?(Array)
       @ids = @data.joins(:category).where(category: { id: p[:c] }).pluck(:id)
       @data = @data.where(id: @ids)
+      # @data = @data.where(category: { id: p[:c] })
     end
 
     total = @data.count
