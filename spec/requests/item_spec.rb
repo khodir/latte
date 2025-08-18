@@ -59,6 +59,15 @@ RSpec.describe "Items", type: :request do
         item_category_attributes: [
           { category_id: categories(:makanan).id },
           { category_id: categories(:minuman).id }
+        ],
+        item_variation_attributes: [
+          {
+            variation_name: "Variation-001",
+            item_variation_value_attributes: [
+              { variation_value: "Value-001", additional_price: 1000 },
+              { variation_value: "Value-002", additional_price: 2000 }
+            ]
+          }
         ]
       }
 
@@ -70,11 +79,20 @@ RSpec.describe "Items", type: :request do
 
       item = assigns(:data)
 
+      # item
       expect(item).to be_a(Item)
-      expect(item.as_json).to include(item_params.as_json(only: [ :kode_item, :nama_item, :keterangan ]))
       expect(item.perusahaan_id).to eq(current_perusahaan.id)
       expect(item.created_by).to eq(current_user.email)
+      expect(item.as_json).to include(item_params.as_json(only: [ :kode_item, :nama_item, :keterangan ]))
+
+      # item category
       expect(item.category.pluck(:id)).to match_array([ categories(:makanan).id, categories(:minuman).id ])
+
+      # item variation
+      expect(item.item_variation.pluck(:variation_name)).to match_array([ "Variation-001" ])
+      expect(item.item_variation.first.item_variation_value.pluck(:variation_value)).to match_array([ "Value-001", "Value-002" ])
+
+      # item image
       expect(item.image).to be_attached
       expect(item.image.filename).to eq('test_image.jpg')
     end
@@ -91,6 +109,15 @@ RSpec.describe "Items", type: :request do
         delete_image: 1,
         item_category_attributes: [
           { category_id: categories(:minuman).id }
+        ],
+        item_variation_attributes: [
+          {
+            variation_name: "Variation-002",
+            item_variation_value_attributes: [
+              { variation_value: "Value-003", additional_price: 1000 },
+              { variation_value: "Value-004", additional_price: 2000 }
+            ]
+          }
         ]
       }
 
@@ -100,10 +127,19 @@ RSpec.describe "Items", type: :request do
       item.reload
       updated_item = assigns(:data)
 
+      # item
       expect(updated_item).to be_a(Item)
       expect(updated_item).to eq(item)
       expect(updated_item.as_json).to include(update_params.as_json(only: [ :kode_item, :nama_item ]))
+
+      # item category
       expect(item.category.pluck(:id)).to match_array([ categories(:minuman).id ])
+
+      # item variation
+      expect(item.item_variation.pluck(:variation_name)).to match_array([ "Variation-002" ])
+      expect(item.item_variation.first.item_variation_value.pluck(:variation_value)).to match_array([ "Value-003", "Value-004" ])
+
+      # item image
       expect(updated_item.image).to be_attached
       expect(updated_item.image.filename).to eq('test_image.jpg')
     end

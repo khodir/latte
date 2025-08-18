@@ -32,10 +32,14 @@ class ItemController < ApplicationController
   # GET /master/item/edit/:id
   def edit
     @categories = Category.by_perusahaan(@current_perusahaan.id)
-    @data = Item.includes(:category, :image_attachment).by_perusahaan(@current_perusahaan.id).find_by!(id: params[:id])
+    @data = Item
+      .includes(:category, :image_attachment, :item_category, item_variation: [ :item_variation_value ])
+      .by_perusahaan(@current_perusahaan.id)
+      .find_by!(id: params[:id])
+
     render inertia: "master/item/edit", props: {
       categories: @categories,
-      data: @data.as_json(include: [ :category, :item_category ])
+      data: @data.as_json(include: [ :category, :item_category, item_variation: [ :item_variation_value ] ])
     }
   end
 
@@ -51,6 +55,10 @@ class ItemController < ApplicationController
 
       # item categories
       @data.assign_attributes(item_category_params)
+      @data.save!
+
+      # item variations
+      @data.assign_attributes(item_variation_params)
       @data.save!
 
       # item image
@@ -72,7 +80,7 @@ class ItemController < ApplicationController
     ApplicationRecord.transaction do
       # update item
       @data = Item.includes(:item_category, :image_attachment).by_perusahaan(@current_perusahaan.id).find_by!(id: params[:id])
-      @data.assign_attributes(item_params.merge(item_category_params))
+      @data.assign_attributes(item_params.merge(item_category_params.merge(item_variation_params)))
       @data.updated_by = @current_user.email
       @data.save!
 
@@ -123,10 +131,10 @@ class ItemController < ApplicationController
 
   def item_variation_params
     params.permit(
-      variation: [
+      item_variation_attributes: [
         :id,
         :variation_name,
-        variation_value: [
+        item_variation_value_attributes: [
           :id,
           :variation_value,
           :additional_price
