@@ -108,44 +108,50 @@
     </q-markup-table>
 
     <!-- Card View -->
-    <div v-else class="row q-col-gutter-md q-mt-md">
-      <div class="col-12 col-sm-6 col-md-3" v-for="row in data" :key="row.id">
-        <q-card v-ripple>
-          <!-- Media -->
-          <Link :href="`/master/item/edit/${row.id}`">
-            <q-img :src="row.image_url" width="100%" :ratio="16/9"></q-img>
-          </Link>
-          <!-- Data -->
-          <q-card-section class="q-pt-sm">
-            <!-- Nama Item and Kode Item -->
-            <div class="text-subtitle1">
-              <span class="tw-font-semibold">{{ row.nama_item }}</span>
-              <span class="text-caption q-ml-sm text-italic">{{ row.kode_item }}</span>
-            </div>
-            <!-- Categories -->
-            <div>
-              <q-chip v-for="cat in row.category" size="sm" color="primary" text-color="white">
-                {{ cat.nama_category }}
-              </q-chip>
-            </div>
+    <div v-else>
+      <div class="row q-col-gutter-md q-mt-md" v-for="rows in chunk(data, cardRowSize)">
+        <div class="col-12 col-sm-6 col-md-3" v-for="row in (rows as any)" :key="row.id">
+          <q-card v-ripple style="width: 100%;">
+            <!-- Media -->
+            <Link :href="`/master/item/edit/${row.id}`">
+              <q-img :src="row.image_url" width="100%" :ratio="16/9"></q-img>
+            </Link>
+            <!-- Data -->
+            <q-card-section class="q-pt-sm">
+              <!-- Nama Item and Kode Item -->
+              <div class="text-subtitle1 tw-overflow-x-hidden tw-whitespace-nowrap tw-truncate">
+                <span class="tw-font-semibold">{{ row.nama_item }}</span>
+              </div>
+              <div class="text-caption text-italic tw-overflow-x-hidden tw-whitespace-nowrap tw-truncate">
+                {{ row.kode_item }}
+              </div>
+              <!-- Categories -->
+              <div class="tw-overflow-x-hidden tw-whitespace-nowrap tw-truncate">
+                <q-chip v-for="cat in row.category" size="sm" color="primary" text-color="white">
+                  {{ cat.nama_category }}
+                </q-chip>
+              </div>
 
-            <!-- Description -->
-            <q-separator class="q-my-sm" />
-            {{ row.keterangan }}
+              <!-- Description -->
+              <q-separator class="q-my-sm" />
+              <div class="tw-overflow-x-hidden tw-whitespace-nowrap tw-truncate">
+                {{ row.keterangan || '-' }}
+              </div>
 
-            <!-- Action -->
-            <div class="row q-pt-sm">
-              <div class="col">
-                <div class="float-right">
-                  <Link :href="`/master/item/edit/${row.id}`" class="q-mr-sm">
-                    <q-btn icon="fas fa-edit" color="primary" outline/>
-                  </Link>
-                  <q-btn @click="onDelete(row.id)" icon="fas fa-trash" color="negative" outline/>
+              <!-- Action -->
+              <div class="row q-pt-sm">
+                <div class="col">
+                  <div class="float-right">
+                    <Link :href="`/master/item/edit/${row.id}`" class="q-mr-sm">
+                      <q-btn icon="fas fa-edit" color="primary" outline/>
+                    </Link>
+                    <q-btn @click="onDelete(row.id)" icon="fas fa-trash" color="negative" outline/>
+                  </div>
                 </div>
               </div>
-            </div>
-          </q-card-section>
-        </q-card>
+            </q-card-section>
+          </q-card>
+        </div>
       </div>
     </div>
 
@@ -177,8 +183,12 @@
 import { Link, router } from '@inertiajs/vue3';
 import { computed, ref, watch } from 'vue';
 import { useQuasar } from 'quasar';
+import { chunk } from 'lodash';
 
 const q = useQuasar();
+const cardRowSize = computed(() => {
+  return q.screen.lt.sm ? 1 : q.screen.lt.md ? 2 : 4;
+});
 
 const { pagination, categories, data } = defineProps(['pagination', 'categories', 'data']);
 const search = ref('');
