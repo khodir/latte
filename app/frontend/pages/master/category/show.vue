@@ -1,41 +1,52 @@
 <template>
   <q-page class="q-pa-md">
-    <q-card>
-      <!-- Headers -->
-      <q-card-section>
-        <div class="row items-center">
-          <div class="col">
-            <q-icon name="fas fa-tags" size="sm" class="text-primary q-pr-md" />
-            <span class="text-subtitle1">Category</span>
-          </div>
-          <div class="col-auto">
-            <Link href="/master/category/new">
-              <q-btn icon="fas fa-plus" color="primary" />
-            </Link>
-          </div>
-        </div>
-      </q-card-section>
-      <q-separator />
-      <!-- Body -->
-      <q-card-section>
-        <!-- Search -->
-        <div class="row q-mb-md">
-          <div class="col">
-            <q-input
-              v-model="search"
-              debounce="300"
-              placeholder="Search Here..."
-              class="full-width"
-              @update:model-value="onSearch"
-            >
-              <template v-slot:prepend>
-                <q-icon name="fab fa-searchengin"/>
-              </template>
-            </q-input>
-          </div>
-        </div>
-        <!-- Table -->
-        <q-markup-table flat separator="cell" bordered>
+    <!-- Page Header -->
+    <div class="row">
+      <div class="col">
+        <q-card>
+          <!-- Header -->
+          <q-card-section>
+            <div class="row items-center">
+              <div class="col">
+                <q-icon name="fas fa-tags" size="sm" class="text-primary q-pr-md" />
+                <span class="text-subtitle1">Category</span>
+              </div>
+              <div class="col-auto">
+                <!-- Add New -->
+                <Link href="/master/category/new">
+                  <q-btn icon="fas fa-plus" color="primary" />
+                </Link>
+              </div>
+            </div>
+          </q-card-section>
+          <q-separator/>
+          <!-- Search -->
+          <q-card-section>
+            <div class="row q-col-gutter-sm">
+              <div class="col-12 col-sm-6">
+                <q-input
+                  filled
+                  v-model="search"
+                  debounce="300"
+                  placeholder="Search Here..."
+                  class="full-width"
+                  @update:model-value="onSearch"
+                >
+                  <template v-slot:prepend>
+                    <q-icon name="fab fa-searchengin"/>
+                  </template>
+                </q-input>
+              </div>
+            </div>
+          </q-card-section>
+        </q-card>
+      </div>
+    </div>
+
+    <!-- Page Data -->
+    <div class="row q-mt-md">
+      <div class="col">
+        <q-markup-table separator="cell">
           <thead>
             <tr class="text-body1 tw-font-semibold bg-primary text-white">
               <th></th>
@@ -68,25 +79,34 @@
             </tr>
           </tbody>
         </q-markup-table>
+      </div>
+    </div>
 
-        <!-- Pagination -->
-        <div class="row q-mt-md">
-          <div class="col">
-            <span>Showing {{ pagination.from }} to {{ pagination.to }} of {{ pagination.total }}.</span>
-            <div class="float-right" v-if="pagination.last_page > 0">
-              <q-pagination
-                v-model="pagination.current_page"
-                :max="pagination.last_page"
-                :input="true"
-                size="sm"
-                @update:model-value="onSearch"
-              />
+    <!-- Pagination -->
+    <div class="row q-mt-md">
+      <div class="col">
+        <q-card>
+          <q-card-section>
+            <div class="row items-center">
+              <div class="col">
+                <span class="text-caption1">
+                  Showing {{ pagination.from }} to {{ pagination.to }} of {{ pagination.total }}.
+                </span>
+              </div>
+              <div class="col-auto">
+                <q-pagination
+                  v-model="pagination.current_page"
+                  :max="pagination.last_page"
+                  :input="true"
+                  size="sm"
+                  @update:model-value="onSearch"
+                />
+              </div>
             </div>
-          </div>
-        </div>
-
-      </q-card-section>
-    </q-card>
+          </q-card-section>
+        </q-card>
+      </div>
+    </div>
   </q-page>
 </template>
 

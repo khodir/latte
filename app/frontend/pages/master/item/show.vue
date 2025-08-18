@@ -129,9 +129,12 @@
                 {{ row.keterangan }}
 
                 <!-- Action -->
-                <div class="row">
+                <div class="row q-pt-sm">
                   <div class="col">
                     <div class="float-right">
+                      <Link :href="`/master/item/edit/${row.id}`" class="q-mr-sm">
+                        <q-btn icon="fas fa-edit" color="primary" outline/>
+                      </Link>
                       <q-btn @click="onDelete(row.id)" icon="fas fa-trash" color="negative" outline/>
                     </div>
                   </div>
