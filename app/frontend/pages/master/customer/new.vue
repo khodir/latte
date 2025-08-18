@@ -13,7 +13,9 @@
           </div>
         </div>
       </q-card-section>
-      <q-separator/>
+    </q-card>
+
+    <q-card class="q-mt-md">
       <q-card-section>
         <q-form ref="customerFrm" @submit.prevent="frm.post(`/master/customer`)">
           <input type="submit" hidden />
@@ -21,7 +23,7 @@
           <div class="row q-col-gutter-sm">
             <!-- ID -->
             <div class="col-12 col-sm-6">
-              <q-input label="ID" readonly v-model="frm.id" :error="!!frm.errors.id" :error-message="frm.errors.id">
+              <q-input filled label="ID" readonly v-model="frm.id" :error="!!frm.errors.id" :error-message="frm.errors.id">
                 <template v-slot:prepend>
                   <q-icon name="fas fa-list-ol" />
                 </template>
@@ -29,7 +31,7 @@
             </div>
             <!-- Nama Customer -->
             <div class="col-12 col-sm-6">
-              <q-input label="Nama Customer" v-model="frm.nama_customer" :error="!!frm.errors.nama_customer" :error-message="frm.errors.nama_customer">
+              <q-input filled label="Nama Customer" v-model="frm.nama_customer" :error="!!frm.errors.nama_customer" :error-message="frm.errors.nama_customer">
                 <template v-slot:prepend>
                   <q-icon name="fas fa-user" />
                 </template>
@@ -40,7 +42,7 @@
           <div class="row q-col-gutter-sm">
             <!-- Email -->
             <div class="col-12 col-sm-6">
-              <q-input label="Email" v-model="frm.email" :error="!!frm.errors.email" :error-message="frm.errors.email">
+              <q-input filled label="Email" v-model="frm.email" :error="!!frm.errors.email" :error-message="frm.errors.email">
                 <template v-slot:prepend>
                   <q-icon name="fas fa-envelope" />
                 </template>
@@ -48,7 +50,7 @@
             </div>
             <!-- No Telp -->
             <div class="col-12 col-sm-6">
-              <q-input label="No. Telp" v-model="frm.no_telp" :error="!!frm.errors.no_telp" :error-message="frm.errors.no_telp">
+              <q-input filled label="No. Telp" v-model="frm.no_telp" :error="!!frm.errors.no_telp" :error-message="frm.errors.no_telp">
                 <template v-slot:prepend>
                   <q-icon name="fas fa-phone" />
                 </template>
@@ -58,8 +60,8 @@
           <!-- Row 3 -->
           <div class="row q-col-gutter-sm">
             <!-- Alamat -->
-            <div class="col-12">
-              <q-input type="textarea" label="Alamat" v-model="frm.alamat" :error="!!frm.errors.alamat" :error-message="frm.errors.alamat">
+            <div class="col-12 col-sm-6">
+              <q-input filled rows="3" type="textarea" label="Alamat" v-model="frm.alamat" :error="!!frm.errors.alamat" :error-message="frm.errors.alamat">
                 <template v-slot:prepend>
                   <q-icon name="fas fa-map-marker-alt" />
                 </template>

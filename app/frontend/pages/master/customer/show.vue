@@ -1,7 +1,8 @@
 <template>
   <q-page class="q-pa-md">
+    <!-- Page Header -->
     <q-card>
-      <!-- Headers -->
+      <!-- Header -->
       <q-card-section>
         <div class="row items-center">
           <div class="col">
@@ -9,19 +10,20 @@
             <span class="text-subtitle1">Customer</span>
           </div>
           <div class="col-auto">
+            <!-- Add New -->
             <Link href="/master/customer/new">
               <q-btn icon="fas fa-plus" color="primary" />
             </Link>
           </div>
         </div>
       </q-card-section>
-      <q-separator />
-      <!-- Body -->
+      <q-separator/>
+      <!-- Search -->
       <q-card-section>
-        <!-- Search -->
-        <div class="row q-mb-md">
-          <div class="col">
+        <div class="row q-col-gutter-sm">
+          <div class="col-12 col-sm-6">
             <q-input
+              filled
               v-model="search"
               debounce="300"
               placeholder="Search Here..."
@@ -34,61 +36,67 @@
             </q-input>
           </div>
         </div>
-        <!-- Table -->
-        <q-markup-table flat separator="cell" bordered>
-          <thead>
-            <tr class="text-body1 tw-font-semibold bg-primary text-white">
-              <th></th>
-              <th>Nama Customer</th>
-              <th>Email</th>
-              <th>No. Telp</th>
-              <th>Alamat</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-if="data.length > 0" v-for="row in data" class="text-center">
-              <td>
-                <!-- Edit -->
-                <Link :href="`/master/customer/edit/${row.id}`">
-                  <q-btn size="xs" color="positive" icon="fas fa-edit" round />
-                </Link>
+      </q-card-section>
+    </q-card>
 
-                <span class="q-mx-sm">
-                  |
-                </span>
+    <!-- Page Data -->
+    <q-markup-table class="q-mt-md" separator="cell">
+      <thead>
+        <tr class="text-body1 tw-font-semibold bg-primary text-white">
+          <th></th>
+          <th>Nama Customer</th>
+          <th>Email</th>
+          <th>No. Telp</th>
+          <th>Alamat</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-if="data.length > 0" v-for="row in data" class="text-center">
+          <td>
+            <!-- Edit -->
+            <Link :href="`/master/customer/edit/${row.id}`">
+              <q-btn size="xs" color="positive" icon="fas fa-edit" round />
+            </Link>
 
-                <!-- Delete -->
-                <q-btn size="xs" color="negative" icon="fas fa-trash" round @click="onDelete(row.id)" />
-              </td>
-              <td>{{ row.nama_customer }}</td>
-              <td>{{ row.email || '-' }}</td>
-              <td>{{ row.no_telp || '-' }}</td>
-              <td>{{ row.alamat || '-' }}</td>
-            </tr>
-            <tr v-else class="text-center">
-              <td colspan="5">
-                No customers found.
-              </td>
-            </tr>
-          </tbody>
-        </q-markup-table>
+            <span class="q-mx-sm">
+              |
+            </span>
 
-        <!-- Pagination -->
-        <div class="row q-mt-md">
+            <!-- Delete -->
+            <q-btn size="xs" color="negative" icon="fas fa-trash" round @click="onDelete(row.id)" />
+          </td>
+          <td>{{ row.nama_customer }}</td>
+          <td>{{ row.email }}</td>
+          <td>{{ row.no_telp }}</td>
+          <td>{{ row.alamat }}</td>
+        </tr>
+        <tr v-else class="text-center">
+          <td colspan="5">
+            No customers found.
+          </td>
+        </tr>
+      </tbody>
+    </q-markup-table>
+
+    <!-- Pagination -->
+    <q-card class="q-mt-md">
+      <q-card-section>
+        <div class="row items-center">
           <div class="col">
-            <span>Showing {{ pagination.from }} to {{ pagination.to }} of {{ pagination.total }}.</span>
-            <div class="float-right" v-if="pagination.last_page > 0">
-              <q-pagination
-                v-model="pagination.current_page"
-                :max="pagination.last_page"
-                :input="true"
-                size="sm"
-                @update:model-value="onSearch"
-              />
-            </div>
+            <span class="text-caption1">
+              Showing {{ pagination.from }} to {{ pagination.to }} of {{ pagination.total }}.
+            </span>
+          </div>
+          <div class="col-auto">
+            <q-pagination
+              v-model="pagination.current_page"
+              :max="pagination.last_page"
+              :input="true"
+              size="sm"
+              @update:model-value="onSearch"
+            />
           </div>
         </div>
-
       </q-card-section>
     </q-card>
   </q-page>
@@ -129,5 +137,5 @@ const onDelete = (id: Number) => {
       data: searchParam.value,
     });
   });
-}
+};
 </script>
