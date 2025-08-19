@@ -25,6 +25,7 @@ Shrine.plugin :rack_file
 Shrine.plugin :activerecord
 
 # cache
+Shrine.plugin :refresh_metadata
 Shrine.plugin :cached_attachment_data
 Shrine.plugin :restore_cached_data
 
