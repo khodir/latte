@@ -2,7 +2,7 @@ class ItemController < ApplicationController
   # GET /master/item
   def show
     p = search_param
-    p[:per_page] ||= 15
+    p[:per_page] ||= 10
 
     @categories = Category.by_perusahaan(@current_perusahaan.id)
     @data = Item.includes(:category).by_perusahaan(@current_perusahaan.id)
