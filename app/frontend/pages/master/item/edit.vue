@@ -22,7 +22,7 @@
           <!-- Upload Image -->
           <div class="tw-flex tw-justify-center tw-items-center tw-mb-4">
             <div class="tw-flex-none md:tw-w-1/2 sm:tw-w-full lg:tw-w-1/3">
-              <q-uploader accept="image/jpeg,image/jpg,image/png,image/bpm,image/gif,image/webp" label="Image" 
+              <q-uploader accept="image/jpeg,image/jpg,image/png" label="Image" 
                 @added="files => frm.image = files[0]"
                 @removed="frm.image = null" :multiple="false"
                 v-if="data.image_url === null"

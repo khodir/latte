@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_17_214027) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_19_025404) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_uca1400_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -76,9 +76,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_17_214027) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.decimal "price", precision: 24, scale: 2
+    t.text "image_data", size: :long, collation: "utf8mb4_bin"
     t.index ["nama_item"], name: "index_item_on_nama_item"
     t.index ["perusahaan_id", "kode_item"], name: "index_item_on_perusahaan_id_and_kode_item", unique: true
     t.index ["perusahaan_id"], name: "index_item_on_perusahaan_id"
+    t.check_constraint "json_valid(`image_data`)", name: "image_data"
   end
 
   create_table "item_category", charset: "utf8mb4", collation: "utf8mb4_uca1400_ai_ci", force: :cascade do |t|

@@ -19,6 +19,9 @@ Rails.application.routes.draw do
     },
     only: [ :sessions ]
 
+  # shrine routes
+  mount ItemImageUploader.download_endpoint => "/item/images"
+
   root "application#show_home"
   get "login", to: "application#show_login", as: :login
 

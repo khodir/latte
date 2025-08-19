@@ -93,8 +93,8 @@ RSpec.describe "Items", type: :request do
       expect(item.item_variation.first.item_variation_value.pluck(:variation_value)).to match_array([ "Value-001", "Value-002" ])
 
       # item image
-      expect(item.image).to be_attached
-      expect(item.image.filename).to eq('test_image.jpg')
+      expect(item.image).to be_present
+      expect(item.image.original_filename).to eq('test_image.jpg')
     end
   end
 
@@ -140,8 +140,8 @@ RSpec.describe "Items", type: :request do
       expect(item.item_variation.first.item_variation_value.pluck(:variation_value)).to match_array([ "Value-003", "Value-004" ])
 
       # item image
-      expect(updated_item.image).to be_attached
-      expect(updated_item.image.filename).to eq('test_image.jpg')
+      expect(updated_item.image).to be_present
+      expect(updated_item.image.original_filename).to eq('test_image.jpg')
     end
   end
 

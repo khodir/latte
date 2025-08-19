@@ -5,7 +5,7 @@ class ItemController < ApplicationController
     p[:per_page] ||= 15
 
     @categories = Category.by_perusahaan(@current_perusahaan.id)
-    @data = Item.includes(:category, :image_attachment).by_perusahaan(@current_perusahaan.id)
+    @data = Item.includes(:category).by_perusahaan(@current_perusahaan.id)
     @data = @data.where("kode_item LIKE :q OR nama_item LIKE :q", { q: "%#{p[:q]}%" }) if p[:q].present?
     if p[:c].present? && p[:c].is_a?(Array)
       @ids = @data.joins(:category).where(category: { id: p[:c] }).pluck(:id)
@@ -36,7 +36,7 @@ class ItemController < ApplicationController
   def edit
     @categories = Category.by_perusahaan(@current_perusahaan.id)
     @data = Item
-      .includes(:category, :image_attachment, :item_category, item_variation: [ :item_variation_value ])
+      .includes(:category, :item_category, item_variation: [ :item_variation_value ])
       .by_perusahaan(@current_perusahaan.id)
       .find_by!(id: params[:id])
 
@@ -66,11 +66,8 @@ class ItemController < ApplicationController
 
       # item image
       if image_params[:image].present?
-        @data.image.attach(
-          key: "items/images/#{@data.id}/#{SecureRandom.uuid}",
-          io: image_params[:image].tempfile,
-          filename: image_params[:image].original_filename
-        )
+        @data.image = image_params[:image]
+        @data.save!
       end
     end
 
@@ -82,23 +79,21 @@ class ItemController < ApplicationController
   def update
     ApplicationRecord.transaction do
       # update item
-      @data = Item.includes(:item_category, :image_attachment).by_perusahaan(@current_perusahaan.id).find_by!(id: params[:id])
+      @data = Item.includes(:item_category).by_perusahaan(@current_perusahaan.id).find_by!(id: params[:id])
       @data.assign_attributes(item_params.merge(item_category_params.merge(item_variation_params)))
       @data.updated_by = @current_user.email
       @data.save!
 
       # delete image
       if image_params[:delete_image].present? && image_params[:delete_image] == "1"
-        @data.image.purge
+        @data.remove_image = true
+        @data.save!
       end
 
       # attach image
       if image_params[:image].present?
-        @data.image.attach(
-          key: "items/images/#{@data.id}/#{SecureRandom.uuid}",
-          io: image_params[:image].tempfile,
-          filename: image_params[:image].original_filename
-        )
+        @data.image = image_params[:image]
+        @data.save!
       end
     end
 

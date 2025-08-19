@@ -88,3 +88,6 @@ gem "prometheus_exporter", "~> 2.2"
 
 # authentication
 gem "devise", "~> 4.9"
+
+# shrine for attachments
+gem "shrine", "~> 3.6"
