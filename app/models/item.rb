@@ -19,7 +19,7 @@ class Item < ApplicationRecord
   validates_numericality_of :price, greater_than_or_equal_to: 0
 
   def image_url
-    Rails.application.routes.url_helpers.rails_blob_url(image, only_path: true) if image.attached?
+    Rails.application.routes.url_helpers.rails_storage_proxy_path(image, only_path: true) if image.attached?
   end
 
   def as_json(options = {})
