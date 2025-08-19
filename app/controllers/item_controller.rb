@@ -116,7 +116,7 @@ class ItemController < ApplicationController
   end
 
   def item_params
-    params.permit(:kode_item, :nama_item, :keterangan)
+    params.permit(:kode_item, :nama_item, :keterangan, :price)
   end
 
   def image_params

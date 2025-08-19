@@ -30,14 +30,6 @@
           </div>
           <!-- Row 1 -->
           <div class="row q-col-gutter-sm">
-            <!-- ID -->
-            <div class="col-12 col-sm-6">
-              <q-input label="ID" readonly v-model="frm.id" :error="!!frm.errors.id" :error-message="frm.errors.id">
-                <template v-slot:prepend>
-                  <q-icon name="fas fa-list-ol" />
-                </template>
-              </q-input>
-            </div>
             <!-- Kode Item -->
             <div class="col-12 col-sm-6">
               <q-input label="Kode Item" v-model="frm.kode_item" :error="!!frm.errors.kode_item" :error-message="frm.errors.kode_item">
@@ -46,9 +38,6 @@
                 </template>
               </q-input>
             </div>
-          </div>
-          <!-- Row 2 -->
-          <div class="row q-col-gutter-sm">
             <!-- Nama Item -->
             <div class="col-12 col-sm-6">
               <q-input label="Nama Item" v-model="frm.nama_item" :error="!!frm.errors.nama_item" :error-message="frm.errors.nama_item">
@@ -56,6 +45,17 @@
                   <q-icon name="fas fa-box" />
                 </template>
               </q-input>
+            </div>
+          </div>
+          <!-- Row 2 -->
+          <div class="row q-col-gutter-sm">
+            <!-- Price -->
+            <div class="col-12 col-sm-6">
+              <NumberInput label="Harga" v-model="frm.price" :error="!!frm.errors.price" :error-message="frm.errors.price">
+                <template v-slot:prepend>
+                  <q-icon name="fas fa-tag" />
+                </template>
+              </NumberInput>
             </div>
             <!-- Category -->
             <div class="col-12 col-sm-6">
@@ -102,6 +102,7 @@
 import { useForm, router } from '@inertiajs/vue3';
 import { QForm } from 'quasar';
 import { ref } from 'vue';
+import NumberInput from '@/components/number_input/number_input.vue';
 
 const { categories } = defineProps(['categories'])
 const frm = useForm({
@@ -110,6 +111,7 @@ const frm = useForm({
   nama_item: '',
   keterangan: '',
   category: [],
+  price: 0,
   image: null
 })
 

@@ -73,6 +73,7 @@
           <th></th>
           <th>Kode Item</th>
           <th>Nama Item</th>
+          <th>Harga</th>
           <th>Kategori</th>
         </tr>
       </thead>
@@ -93,8 +94,11 @@
           </td>
           <td>{{ row.kode_item }}</td>
           <td>{{ row.nama_item }}</td>
+          <td>{{ $filters.format_number(row.price) }}</td>
           <td>
-            {{ row.category.map((c: any) => c.nama_category).join(', ') }}
+            {{ 
+              $filters.str_limit(row.category.map((c: any) => c.nama_category).join(', '), 40)
+            }}
           </td>
         </tr>
         <tr v-else class="text-center">
@@ -117,12 +121,14 @@
             
             <!-- Data -->
             <q-card-section class="q-pt-sm">
-              <!-- Nama Item and Kode Item -->
-              <div class="text-subtitle1 tw-overflow-x-hidden tw-whitespace-nowrap tw-truncate">
-                <span class="tw-font-semibold">{{ (rows[idx - 1] as any).nama_item }}</span>
+              <!-- Kode & Nama Item -->
+              <div class="text-body1 tw-overflow-x-hidden tw-whitespace-nowrap tw-truncate">
+                {{ (rows[idx - 1] as any).nama_item }} |
+                <span class="text-caption text-italic tw-mx-2">{{ (rows[idx - 1] as any).kode_item }}</span>
               </div>
-              <div class="text-caption text-italic tw-overflow-x-hidden tw-whitespace-nowrap tw-truncate">
-                {{ (rows[idx - 1] as any).kode_item }}
+              <!-- Harga -->
+              <div class="text-subtitle1 tw-overflow-x-hidden tw-whitespace-nowrap tw-truncate tw-font-semibold">
+                {{ $filters.format_number((rows[idx - 1] as any).price) }}
               </div>
 
               <!-- Categories -->

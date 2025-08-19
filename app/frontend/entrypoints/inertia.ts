@@ -3,6 +3,8 @@ import { createApp, DefineComponent, h } from 'vue'
 import { Quasar, Dialog, Notify, Loading, LoadingBar } from 'quasar';
 import quasarIconset from "quasar/icon-set/fontawesome-v6";
 import Layout from '@/layouts/app.vue'
+import moment from 'moment';
+import { formatNumber } from 'accounting';
 
 createInertiaApp({
   // Set default page title
@@ -31,27 +33,53 @@ createInertiaApp({
   },
 
   setup({ el, App, props, plugin }) {
-    createApp({ render: () => h(App, props) })
-      .use(plugin)
-      .use(Quasar, {
-        plugins: { Dialog, Notify, Loading, LoadingBar },
-        iconSet: quasarIconset,
-        config: {
-          brand: {
-            primary: '#2b5c8c',
-            secondary: '#1e877d',
-            accent: '#9C27B0',
+    const app = createApp({ render: () => h(App, props) })
 
-            dark: '#1d1d1d',
-            'dark-page': '#121212',
+    // custom filters
+    app.config.globalProperties.$filters = {
+      str_limit(value: any, size: number) {
+        if (!value) return '';
+        value = value.toString();
 
-            positive: '#1a7830',
-            negative: '#C10015',
-            info: '#129ab5',
-            warning: '#F2C037'
-          }
+        if (value.length <= size) {
+          return value;
         }
-      })
-      .mount(el)
+
+        return value.substr(0, size) + '...';
+      },
+      format_date(value: any) {
+        if (!value) return ''
+        return moment(value).format('YYYY-MM-DD HH:mm:ss')
+      },
+      format_number(value: any) {
+        if (!value) return ''
+        return formatNumber(value, { precision: 2, decimal: ",", thousand: "." })
+      }
+    };
+    
+    // plugins
+    app.use(plugin)
+    app.use(Quasar, {
+      plugins: { Dialog, Notify, Loading, LoadingBar },
+      iconSet: quasarIconset,
+      config: {
+        brand: {
+          primary: '#2b5c8c',
+          secondary: '#1e877d',
+          accent: '#9C27B0',
+
+          dark: '#1d1d1d',
+          'dark-page': '#121212',
+
+          positive: '#1a7830',
+          negative: '#C10015',
+          info: '#129ab5',
+          warning: '#F2C037'
+        }
+      }
+    })
+    
+    // mount
+    app.mount(el)
   },
 })

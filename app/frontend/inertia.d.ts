@@ -23,3 +23,14 @@ declare module '@inertiajs/core' {
     // Add other shared props here
   }
 }
+
+// Declare global properties for Vue components
+declare module '@vue/runtime-core' {
+  interface ComponentCustomProperties {
+    $filters: {
+      str_limit(value: any, size: number): string;
+      format_date(value: any): string;
+      format_number(value: any): string;
+    }
+  }
+}
