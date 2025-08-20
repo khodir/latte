@@ -149,14 +149,24 @@
         </q-list>
       </div>
     </div>
+
+    <!-- Variation Dialog -->
+    <Variation 
+      ref="variation" 
+      :dialog="variationDialog" 
+      :data="frm.item_variation_attributes" 
+      @cancel="variationDialog = false"
+      @save="saveVariation"
+    />
   </q-page>
 </template>
 
 <script setup>
 import { useForm, router } from '@inertiajs/vue3';
 import { QForm } from 'quasar';
-import { ref } from 'vue';
+import { reactive, ref, useTemplateRef } from 'vue';
 import NumberInput from "@/components/number_input/number_input.vue";
+import Variation from "@/components/master/item/variation-dialog.vue";
 
 const itemVariationExpanded = ref(true)
 const { categories, data } = defineProps(['categories', 'data'])
@@ -213,24 +223,28 @@ const filterCategory = (query, update) => {
 // cancel
 const onCancel = () => router.visit('/master/item');
 
-// add variation
+// variations
+const variation = useTemplateRef('variation');
+const variationDialog = ref(false)
+
 const addVariation = () => {
-  frm.item_variation_attributes.push({
-    id: null,
-    variation_name: `Options ${frm.item_variation_attributes.length + 1}`,
-    item_variation_value_attributes: [
-      { id: null, variation_value: "Value 1", additional_price: 0 }
-    ]
-  })
+  variationDialog.value = true;
+  variation.value.onNew();
 }
 
-// remove variation
-const removeVariation = (index) => {
-  frm.item_variation_attributes.splice(index, 1)
+
+const editVariation = (idx) => {
+  variationDialog.value = true;
+  variation.value.onEdit(idx);
 }
 
-// remove variation value
-const removeVariationValue = (variationIndex, valueIndex) => {
-  frm.item_variation_attributes[variationIndex].item_variation_value_attributes.splice(valueIndex, 1)
+const saveVariation = (val) => {
+  if (variation.value.mode === 'new') {
+    frm.item_variation_attributes.push(val)
+  } else {
+    frm.item_variation_attributes[cidx] = val
+  }
+
+  variationDialog.value = false;
 }
 </script>

@@ -1,5 +1,6 @@
 <template>
   <q-input 
+    v-if="error !== undefined"
     label="Harga"
     :type="inputType"
     :error="!!error" 
@@ -19,14 +20,55 @@
       <slot name="append"></slot>
     </template>
   </q-input>
+
+  <q-input 
+    v-else-if="rules !== undefined"
+    label="Harga"
+    :type="inputType"
+    :rules="rules"
+    v-model="txtValue"
+    @update:modelValue="onUpdate"
+    @focus="onFocus"
+    @blur="onBlur"
+    min="0"
+    precision="2"
+    step="100"
+  >
+    <template v-slot:prepend>
+      <slot name="prepend"></slot>
+    </template>
+    <template v-slot:append>
+      <slot name="append"></slot>
+    </template>
+  </q-input>
+  
+  <q-input 
+    v-else
+    label="Harga"
+    :type="inputType"
+    v-model="txtValue"
+    @update:modelValue="onUpdate"
+    @focus="onFocus"
+    @blur="onBlur"
+    min="0"
+    precision="2"
+    step="100"
+  >
+    <template v-slot:prepend>
+      <slot name="prepend"></slot>
+    </template>
+    <template v-slot:append>
+      <slot name="append"></slot>
+    </template>
+  </q-input>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { formatNumber, unformat } from 'accounting';
 
 defineOptions({name: 'NumberInput'})
-const { modelValue, error, errorMessage } = defineProps(['modelValue', 'error', 'errorMessage'])
+const { modelValue, error, errorMessage, rules } = defineProps(['modelValue', 'error', 'errorMessage', 'rules'])
 const emit = defineEmits(['update:modelValue'])
 
 const config = {

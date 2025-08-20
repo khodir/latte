@@ -18,3 +18,8 @@
 .bg-none {
   background: none !important;
 }
+
+.required .q-field__label::after {
+  content: "*";
+  color: #C10015;
+}
