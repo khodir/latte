@@ -84,7 +84,7 @@ gem "opentelemetry-sdk", "~> 1.8"
 gem "opentelemetry-instrumentation-all", "~> 0.78.0"
 gem "opentelemetry-exporter-otlp", "~> 0.30.0"
 gem "opentelemetry-instrumentation-rails", "~> 0.36.0"
-gem "prometheus_exporter", "~> 2.2"
+gem "prometheus_exporter", "~> 2.3"
 
 # authentication
 gem "devise", "~> 4.9"
