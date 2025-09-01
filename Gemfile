@@ -76,7 +76,7 @@ gem "faker"
 gem "aws-sdk-s3", require: false
 
 # vite and inertia
-gem "inertia_rails", "~> 3.10"
+gem "inertia_rails", "~> 3.11"
 gem "vite_rails", "~> 3.0"
 
 # observability
