@@ -80,7 +80,7 @@ gem "inertia_rails", "~> 3.10"
 gem "vite_rails", "~> 3.0"
 
 # observability
-gem "opentelemetry-sdk", "~> 1.8"
+gem "opentelemetry-sdk", "~> 1.10"
 gem "opentelemetry-instrumentation-all", "~> 0.78.0"
 gem "opentelemetry-exporter-otlp", "~> 0.30.0"
 gem "opentelemetry-instrumentation-rails", "~> 0.36.0"
